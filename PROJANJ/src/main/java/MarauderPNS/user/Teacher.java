@@ -14,8 +14,8 @@ public class Teacher extends User
 	 * <!--  end-user-doc  -->
 	 * @generated
 	 */
-	public Teacher(){
-		super();
+	public Teacher(int id){
+		super(id);
 	}
 
 }
