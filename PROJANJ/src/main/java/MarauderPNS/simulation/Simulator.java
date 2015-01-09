@@ -2,42 +2,27 @@ package MarauderPNS.simulation;
 
 
 import MarauderPNS.map.Field;
+import MarauderPNS.user.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * <br>
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * The Simulator class, which contains the simulation
  */
 
 public class Simulator
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public boolean users;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+	public Map<Integer, User> users;
+
 	public Field field;
 	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
+
 	public Simulator(){
-		super();
+        users = new HashMap<>();
+        field = new Field();
 	}
+
 
 }
 
