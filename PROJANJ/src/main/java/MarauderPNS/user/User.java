@@ -1,41 +1,26 @@
+
 package MarauderPNS.user;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
+ * Classe User, qui définit les personnes modélies sur la carte
  * @generated
  */
 
 public class User
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
+
 	private int id;
-	
-	/**
-	 * <br>
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
 	private Position position;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
-	public User(){
-		super();
+
+	public User(int hisId){
+        id = hisId;
 	}
+
+    public void setPosition(int x, int y) {
+        position.setX(x);
+        position.setY(x);
+    }
 
 }
 
