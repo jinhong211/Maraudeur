@@ -2,20 +2,18 @@ package MarauderPNS.map;
 
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * The class Wall, which is a type of Square where no user has access
  */
 
 public class Wall extends Square
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
+
+    /**
+     * The access attribute stays empty
+     */
 	public Wall(){
 		super();
+
 	}
 
 }

@@ -4,38 +4,21 @@ package MarauderPNS.map;
 import MarauderPNS.simulation.Simulator;
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * The Field class, where the map is defined, as a table.
  */
 
 public class Field
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	private Square myTable;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Simulator simulator;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
+
+	private Square[][][] myTable;
+
 	public Field(){
-		super();
+		for (int i = 0; i<20;i++) {
+            for (int j = 0; j<20;j++) {
+                myTable[0][i][j] = new Square();
+            }
+        }
+
 	}
 
 }

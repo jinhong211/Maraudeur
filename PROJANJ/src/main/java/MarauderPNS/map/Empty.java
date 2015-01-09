@@ -1,31 +1,33 @@
 package MarauderPNS.map;
 
 
+import MarauderPNS.user.Student;
+import MarauderPNS.user.User;
+
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * The Empty class, which modelises a square where certain people can be, since it is "empty"
  */
 
 public class Empty extends Square
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
 	
 	private int nbOfPeople;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
+
 	public Empty(){
 		super();
+        access.add(User.class);
+        nbOfPeople = 0;
 	}
+
+    public void addPerson(int nb) {
+        if(nb > 0)
+        nbOfPeople += nb;
+    }
+
+    public void removePerson(int nb) {
+        if (nb > 0)
+            nbOfPeople-= nb;
+    }
 
 }
 

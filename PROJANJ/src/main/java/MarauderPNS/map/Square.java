@@ -1,39 +1,22 @@
 package MarauderPNS.map;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * The class Square, which is the modelisation of a place in the map, of variable size throughout the project
  */
 
 public class Square
 {
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
+
+	protected List<Class> access;
+
 	
-	private boolean access;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	public Field field;
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 */
+
 	public Square(){
-		super();
+		access = new ArrayList<>();
 	}
 
 }
