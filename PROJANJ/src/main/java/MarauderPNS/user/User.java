@@ -7,7 +7,7 @@ package MarauderPNS.user;
  * @generated
  */
 
-public class User
+public abstract class User
 {
 
 	private int id;
