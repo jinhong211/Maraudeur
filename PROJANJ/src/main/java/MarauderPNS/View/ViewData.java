@@ -1,4 +1,4 @@
-package MarauderPNS.view;
+package MarauderPNS.View;
 
 /**
  * Created by Quentin on 09/01/2015.

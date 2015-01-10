@@ -1,4 +1,4 @@
-package MarauderPNS.view;
+package MarauderPNS.View;
 
 import javax.swing.*;
 import java.awt.*;
