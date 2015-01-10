@@ -6,4 +6,5 @@ package MarauderPNS.view;
 public interface ViewData {
 
     String title = "Carte du Marauder";
+    String name = "Simulation de la carte du Marauder :";
 }
