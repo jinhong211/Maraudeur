@@ -12,6 +12,8 @@ public class GridView extends JFrame {
 
     public GridView(int heigh, int width, Field grid) {
 
+        Graphics graphics = getContentPane().getGraphics();
+
         JPanel field = new FieldPanel(grid);
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
