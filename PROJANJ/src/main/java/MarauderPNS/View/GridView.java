@@ -10,11 +10,14 @@ import java.awt.*;
  */
 public class GridView extends JFrame {
 
+
+    private JPanel field;
+
     public GridView(int heigh, int width, Field grid) {
 
         Graphics graphics = getContentPane().getGraphics();
 
-        JPanel field = new FieldPanel(grid);
+        field = new FieldPanel(grid);
         field.setLayout(new FlowLayout());
         field.setPreferredSize(new Dimension(20*15,20*15));
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
@@ -30,9 +33,16 @@ public class GridView extends JFrame {
        this.setTitle(ViewData.title);
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.pack();
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         container.requestFocus();
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void repaint(){
+        field.repaint();
     }
 }

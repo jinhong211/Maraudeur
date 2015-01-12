@@ -24,7 +24,7 @@ public abstract class User
 
     public void setPosition(int x, int y) {
         position.setX(x);
-        position.setY(x);
+        position.setY(y);
     }
 
     public Position getPosition() {
