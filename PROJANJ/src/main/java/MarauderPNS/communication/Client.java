@@ -97,7 +97,7 @@ public class Client
             iGet =  "{\"return\":" +
                     "[" +
                     "{\"user\":{\"id\":62,\"status\":\"Teacher\"}}," +
-                    "{\"user\":{\"id\":63,\"status\":\" Student \"}}," +
+                    "{\"user\":{\"id\":63,\"status\":\"Student\"}}," +
                     "{\"user\":{\"id\":64,\"status\":\"Student\"}}," +
                     "{\"user\":{\"id\":65,\"status\":\"Student\"}}," +
                     "{\"user\":{\"id\":66,\"status\":\"Teacher\"}}," +
@@ -122,7 +122,7 @@ public class Client
     protected HashMap<Integer, User> createUsers(HashMap<Integer, String> listOfUsers) {
         HashMap<Integer, User> myUsers = new HashMap<>();
         for (Map.Entry<Integer, String> entry : listOfUsers.entrySet()) {
-            if (entry.getValue().equals("student"))
+            if (entry.getValue().equalsIgnoreCase("student"))
                 myUsers.put(entry.getKey(), new Student());
             else
                 myUsers.put(entry.getKey(), new Teacher());
