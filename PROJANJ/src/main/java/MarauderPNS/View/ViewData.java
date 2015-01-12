@@ -1,4 +1,4 @@
-package MarauderPNS.view;
+package MarauderPNS.View;
 
 /**
  * Created by Quentin on 09/01/2015.
@@ -6,4 +6,5 @@ package MarauderPNS.view;
 public interface ViewData {
 
     String title = "Carte du Marauder";
+    String name = "Simulation de la carte du Marauder :";
 }
