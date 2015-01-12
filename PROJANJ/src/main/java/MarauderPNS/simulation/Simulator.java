@@ -8,6 +8,7 @@ import MarauderPNS.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * The Simulator class, which contains the simulation
@@ -47,6 +48,23 @@ public class Simulator
 			field.place(entry.getValue());
 		}
 	}
+
+
+	public void runOneStep() {
+		Random random = Randomizer.getRandom();
+		for(Map.Entry<Integer, User> entry : users.entrySet()) {
+			System.out.println(entry.getValue().getPosition().getY());
+			System.out.println(entry.getValue().getPosition().getX());
+			entry.getValue().setPosition(random.nextInt(20),random.nextInt(20));
+
+
+			System.out.println(entry.getValue().getPosition().getY());
+			System.out.println(entry.getValue().getPosition().getX());
+		}
+
+	}
+
+
 
 	public Map<Integer, User> getUsers() {
 		return users;

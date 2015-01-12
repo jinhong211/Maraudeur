@@ -32,5 +32,6 @@ public class GridView extends JFrame {
         this.setLocationRelativeTo(null);
         container.requestFocus();
         this.setVisible(true);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
