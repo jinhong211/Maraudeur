@@ -18,8 +18,6 @@ public class GridView extends JFrame {
         Graphics graphics = getContentPane().getGraphics();
 
         field = new FieldPanel(grid);
-        field.setLayout(new FlowLayout());
-        field.setPreferredSize(new Dimension(20*15,20*15));
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
 
@@ -28,11 +26,12 @@ public class GridView extends JFrame {
         container.add(title, BorderLayout.NORTH);
         container.add(field, BorderLayout.CENTER);
         container.add(time, BorderLayout.SOUTH);
-        this.getContentPane().setLayout(new FlowLayout());
-        this.getContentPane().add(container);
-       this.setTitle(ViewData.title);
-        JFrame.setDefaultLookAndFeelDecorated(true);
+        this.setContentPane(container);
+        this.setTitle(ViewData.title);
+        this.setSize(this.getToolkit().getScreenSize());
         this.pack();
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         container.requestFocus();
         this.setVisible(true);
