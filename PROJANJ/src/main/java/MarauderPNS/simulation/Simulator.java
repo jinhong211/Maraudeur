@@ -1,6 +1,7 @@
 package MarauderPNS.simulation;
 
 
+import MarauderPNS.View.GridView;
 import MarauderPNS.map.Field;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
@@ -16,14 +17,14 @@ import java.util.Random;
 
 public class Simulator
 {
-	public Map<Integer, User> users;
-
-	public Field field;
-	
+	private Map<Integer, User> users;
+	private GridView grid;
+	private Field field;
 
 	public Simulator(){
         users = new HashMap<>();
         field = new Field();
+		grid = new GridView(500,500,field);
 		generateUsers();
 		placeUser();
 	}
@@ -49,25 +50,51 @@ public class Simulator
 		}
 	}
 
-
+	/**
+	 * This run a simulation of one step.
+	 */
 	public void runOneStep() {
-		Random random = Randomizer.getRandom();
-		Random random2 = Randomizer.getRandom();
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
-			System.out.println(entry.getValue().getPosition().getY());
-			System.out.println(entry.getValue().getPosition().getX());
-			int x = random.nextInt(20);
-			int y = random2.nextInt(20);
-			entry.getValue().setPosition(x,y);
-
-
-			System.out.println(entry.getValue().getPosition().getY());
-			System.out.println(entry.getValue().getPosition().getX());
+			getCoordRand(entry.getValue());
 		}
+		field.clear();
+
 		placeUser();
+
+		grid.repaint();
 	}
 
 
+
+
+
+
+	/**
+	 * This simulation create random coordinated for every user.
+	 * @param user
+	 */
+	private void getCoordRand(User user){
+		Random rand = new Random();
+		int x = rand.nextInt(20);
+		int y = rand.nextInt(20);
+		user.setPosition(x,y);
+	}
+
+
+
+	/**
+	 * This run a simulation of ten step.
+	 */
+	public void runSimulation() {
+		for(int i = 0; i < 10; i++){
+			runOneStep();
+			try {
+				Thread.sleep(new Long(1000));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public Map<Integer, User> getUsers() {
 		return users;

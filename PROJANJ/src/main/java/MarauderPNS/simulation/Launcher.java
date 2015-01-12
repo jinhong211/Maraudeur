@@ -9,11 +9,7 @@ public class Launcher {
 
     public static void main( String[] args ) {
         Simulator simulator = new Simulator();
-        GridView grid = new GridView(500,500,simulator.getField());
-        simulator.runOneStep();
-        //grid = new GridView(500,500,simulator.getField());
-        grid.repaint();
-        grid.revalidate();
-        System.out.println("TEEEEST");
+    //    GridView grid = new GridView(500,500,simulator.getField());
+        simulator.runSimulation();
     }
 }
