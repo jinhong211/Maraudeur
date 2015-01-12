@@ -1,5 +1,7 @@
 package MarauderPNS.View;
 
+import MarauderPNS.map.Field;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,9 +10,9 @@ import java.awt.*;
  */
 public class GridView extends JFrame {
 
-    public GridView(int heigh, int width) {
+    public GridView(int heigh, int width, Field grid) {
 
-        JPanel field = new FieldPanel();
+        JPanel field = new FieldPanel(grid);
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
 
