@@ -4,15 +4,23 @@ package MarauderPNS.communication;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import sun.misc.IOUtils;
 
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import javax.net.ssl.HttpsURLConnection;
 /**
  * The client class dedicated to communicating with the server, via the https protocol for now
@@ -76,7 +84,7 @@ public class Client
     //Et pas de requête en JSON
     public HashMap<Integer, User> beginSimulation() {
         String iGet = "";
-        try {
+        /*try {
             String httpsURL = "maraudeur.neowutran.net/start_simulation";
             URL myurl = new URL(httpsURL);
             //WARNING : here, it is likely to crash because the certificate is self-signed
@@ -91,7 +99,23 @@ public class Client
                 iGet = (inputLine); //this will be what's in the JSON format
             }
             in.close();
-            con.disconnect();
+            con.disconnect(); */
+
+        HttpGet request = new HttpGet();
+        request.setHeader("Accept", "application/json");
+        HttpClient httpClient = HttpManager.getNewHttpClient();
+        try {
+            try {
+                request.setURI(new URI("https://maraudeur.neowutran.net/start_simulation"));
+            } catch (RuntimeException e) {
+            }
+            //Here, supposed to get the json stuff
+            HttpResponse response = httpClient.execute(request);
+            Scanner scanner = new Scanner(response.getEntity().getContent());
+            while (scanner.hasNextLine()) {
+                iGet += scanner.nextLine();
+            }
+        } catch (URISyntaxException | IOException e) {
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -140,21 +164,43 @@ public class Client
      */
     public void saveAMove(int id, User user) {
         try {
-            String httpsURL = "maraudeur.neowutran.net/add_position";
-            URL myurl = new URL(httpsURL);
-            //WARNING : here, it is likely to crash because the certificate is self-signed
-            HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection();
-            //And if I want to send stg to the server ?
-            OutputStream outs = con.getOutputStream();
-            out = new PrintWriter(outs, true);
-            out.println(jSONGenerator.saveTheMove(id, user));
+            //This is the only line that got changed to bypass the ssl security
+            HttpClient httpclient =HttpManager.getNewHttpClient();
+            HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/add_position");
+
+            // Request parameters and other properties.
+            List<NameValuePair> params = new ArrayList<NameValuePair>(1);
+            params.add(new BasicNameValuePair("params", jSONGenerator.saveTheMove(id, user)));
+            System.out.println(jSONGenerator.saveTheMove(id, user));
+            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+    //Execute and get the response.
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+        if (entity != null) {
+            InputStream instream = entity.getContent();
+            try {
+                jSONGenerator.checkAnswer(instream);
+            } finally {
+                instream.close();
+            }
+        }
             out.close();
-            con.disconnect();
         }
         catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * The method to replay the steps of a user.
+     * @param user the user we want
+     */
+    public void replaySomeone(User user) {
 
     }
+
+
 }
 

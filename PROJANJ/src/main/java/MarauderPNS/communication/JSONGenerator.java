@@ -8,7 +8,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
+import sun.misc.IOUtils;
 
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -83,26 +86,36 @@ public class JSONGenerator {
     /**
      * The method to create the json object to ask a move to be saved.
      * Must look like : “params”:  {"id":1,"case":{"x":1,"y":1}, "time":1421052268}
-     *                   {"balance":1000.21,"num":100,"nickname":null,"is_vip":true,"name":"foo"}
      * @param user
      * @return
      */
-    public JSONObject saveTheMove(int id, User user) {
+    public String saveTheMove(int id, User user) {
         java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-        JSONObject theMove = new JSONObject();
+
         JSONObject theDetails = new JSONObject();
         JSONObject thePosition = new JSONObject();
-
 
         thePosition.put("x", user.getPosition().getX());
         thePosition.put("y", user.getPosition().getY());
 
         theDetails.put("id", id);
         theDetails.put("case", thePosition);
-        theDetails.put("time", currentTimestamp);
+        theDetails.put("time",  currentTimestamp.getTime());
+        return theDetails.toString();
+    }
 
-        theMove.put("params", theDetails);
-        return theMove;
+    public void checkAnswer(InputStream instream) {
+        //We want to get that :  { “return” : { “code” : 200 } }
+        java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
+        try {
+            while (s.hasNext()) {
+                assert(s.next().equals("{\"return\":{\"code\":200}}"));
+
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
