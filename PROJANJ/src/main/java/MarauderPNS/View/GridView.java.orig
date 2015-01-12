@@ -12,15 +12,18 @@ public class GridView extends JFrame {
 
 
     private JPanel field;
-    private SimulationPanel simulationPanel = new SimulationPanel();
 
     public GridView(int heigh, int width, Field grid) {
 
         Graphics graphics = getContentPane().getGraphics();
 
-        field = new FieldPanel(grid);
+<<<<<<< HEAD
+        JPanel field = new FieldPanel(grid);
         field.setLayout(new FlowLayout());
         field.setPreferredSize(new Dimension(20*15,20*15));
+=======
+        field = new FieldPanel(grid);
+>>>>>>> 410252188f5f9289cd4fb456143db75a0f15c827
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
 
@@ -28,7 +31,6 @@ public class GridView extends JFrame {
         container.setLayout(new BorderLayout());
         container.add(title, BorderLayout.NORTH);
         container.add(field, BorderLayout.CENTER);
-        container.add(simulationPanel, BorderLayout.EAST);
         container.add(time, BorderLayout.SOUTH);
         this.getContentPane().setLayout(new FlowLayout());
         this.getContentPane().add(container);
