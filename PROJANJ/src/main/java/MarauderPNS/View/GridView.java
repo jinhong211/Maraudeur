@@ -33,8 +33,6 @@ public class GridView extends JFrame {
        this.setTitle(ViewData.title);
         JFrame.setDefaultLookAndFeelDecorated(true);
         this.pack();
-        JFrame.setDefaultLookAndFeelDecorated(true);
-        this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         container.requestFocus();
         this.setVisible(true);
