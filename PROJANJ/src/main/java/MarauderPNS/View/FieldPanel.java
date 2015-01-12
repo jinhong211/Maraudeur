@@ -44,33 +44,33 @@ public class FieldPanel extends JPanel{
 
     /**
      * This method make the gradient of blue and red in function of concentration of teacher and student.
-     * @param x
-     * @param y
+     * @param col
+     * @param row
      * @param graphics
      */
-    private void paintUser(int x, int y, Graphics graphics) {
+    private void paintUser(int col, int row, Graphics graphics) {
         int student = 0;
         int teacher = 0;
-        for(User user : field.getMyTable()[0][x][y].getPopulation()) {
-            if(user.getClass() == Teacher.class) {
+        for(User user : field.getMyTable()[0][col][row].getPopulation()) {
+            if(user instanceof Teacher) {
                 teacher++;
-            } else if(user.getClass() == Student.class) {
+            } else if(user instanceof Student) {
                 student++;
             }
         }
-        int green = 0;
-        int red = 0;
-        int blue = 0;
+        int green = 100;
+        int red = 180;
+        int blue = 180;
         if(student > 0) {
-            blue = student * 10;
-            if(blue > 255){
-                blue = 255;
+            blue = blue - (student * 25);
+            if(blue < 50){
+                blue = 50;
             }
         }
         if(teacher > 0) {
-            red =  teacher * 10;
-            if(red > 255) {
-                red = 255;
+            red = red - (teacher * 25);
+            if(red < 50) {
+                red = 50;
             }
         }
         g.setColor(new Color(red,green,blue));

@@ -10,11 +10,16 @@ import java.awt.*;
  */
 public class GridView extends JFrame {
 
+
+    private JPanel field;
+    private SimulationPanel simulationPanel = new SimulationPanel();
+
     public GridView(int heigh, int width, Field grid) {
 
         Graphics graphics = getContentPane().getGraphics();
 
-        JPanel field = new FieldPanel(grid);
+        field = new FieldPanel(grid);
+        field.setPreferredSize(new Dimension(20*15, 20*15));
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
 
@@ -22,15 +27,22 @@ public class GridView extends JFrame {
         container.setLayout(new BorderLayout());
         container.add(title, BorderLayout.NORTH);
         container.add(field, BorderLayout.CENTER);
+        container.add(simulationPanel, BorderLayout.EAST);
         container.add(time, BorderLayout.SOUTH);
         this.setContentPane(container);
-        this.setTitle(ViewData.title);
-        this.setSize(this.getToolkit().getScreenSize());
+        this.setTitle("TEST");
+      //  this.setSize(this.getToolkit().getScreenSize());
         this.pack();
         JFrame.setDefaultLookAndFeelDecorated(true);
-        this.setExtendedState(Frame.MAXIMIZED_BOTH);
+   //     this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         container.requestFocus();
         this.setVisible(true);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void repaint(){
+        field.repaint();
     }
 }

@@ -18,5 +18,9 @@ public class Student extends User
 	public Student() {
 		super();
 	}
+
+	public Student(int x, int y){
+		super(x,y);
+	}
 }
 
