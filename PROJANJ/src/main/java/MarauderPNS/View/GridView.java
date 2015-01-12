@@ -30,7 +30,7 @@ public class GridView extends JFrame {
         container.add(simulationPanel, BorderLayout.EAST);
         container.add(time, BorderLayout.SOUTH);
         this.setContentPane(container);
-        this.setTitle(ViewData.title);
+        this.setTitle("TEST");
       //  this.setSize(this.getToolkit().getScreenSize());
         this.pack();
         JFrame.setDefaultLookAndFeelDecorated(true);

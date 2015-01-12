@@ -19,5 +19,8 @@ public class Teacher extends User
 		super();
 	}
 
+	public Teacher(int x, int y){
+		super(x,y);
+	}
 }
 

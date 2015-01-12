@@ -36,7 +36,7 @@ public class Simulator
 			users.put(i, user);
 		}
 		for(int i = 0; i < 5; i++){
-			User user = new Student();
+			User user = new Student(15,15);
 			users.put(i+5,user);
 		}
 	}
@@ -55,7 +55,7 @@ public class Simulator
 	 */
 	public void runOneStep() {
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
-			getCoordRand(entry.getValue());
+			getLogicCoord(entry.getValue());
 		}
 		field.clear();
 
@@ -64,10 +64,28 @@ public class Simulator
 		grid.repaint();
 	}
 
-
-
-
-
+	private void getLogicCoord(User user){
+		Random rand = new Random();
+		int x = user.getPosition().getX();
+		int y = user.getPosition().getY();
+		switch(rand.nextInt(4)) {
+			case 0 :
+				user.setPosition(x+1,y);
+				break;
+			case 1 :
+				user.setPosition(x-1,y);
+				break;
+			case 2 :
+				user.setPosition(x,y+1);
+				break;
+			case 3 :
+				user.setPosition(x,y-1);
+				break;
+			default :
+				user.setPosition(x,y);
+				break;
+		}
+	}
 
 	/**
 	 * This simulation create random coordinated for every user.
