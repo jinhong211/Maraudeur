@@ -19,6 +19,7 @@ public class GridView extends JFrame {
         Graphics graphics = getContentPane().getGraphics();
 
         field = new FieldPanel(grid);
+        field.setPreferredSize(new Dimension(20*15, 20*15));
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
 
@@ -30,10 +31,10 @@ public class GridView extends JFrame {
         container.add(time, BorderLayout.SOUTH);
         this.setContentPane(container);
         this.setTitle(ViewData.title);
-        this.setSize(this.getToolkit().getScreenSize());
+      //  this.setSize(this.getToolkit().getScreenSize());
         this.pack();
         JFrame.setDefaultLookAndFeelDecorated(true);
-        this.setExtendedState(Frame.MAXIMIZED_BOTH);
+   //     this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         container.requestFocus();
         this.setVisible(true);
