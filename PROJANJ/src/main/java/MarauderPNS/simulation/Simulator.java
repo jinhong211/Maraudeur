@@ -3,6 +3,7 @@ package MarauderPNS.simulation;
 
 import MarauderPNS.View.GridView;
 import MarauderPNS.map.Field;
+import MarauderPNS.map.Wall;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
@@ -15,27 +16,33 @@ import java.util.Random;
  * The Simulator class, which contains the simulation
  */
 
-public class Simulator
-{
+public class Simulator extends Thread{
 	private Map<Integer, User> users;
 	private GridView grid;
+	private int height;
+	private int width;
 	private Field field;
 
 	private static Simulator instance = null;
 
 	public static Simulator getInstance() {
 		if (Simulator.instance == null) {
-			instance = new Simulator();
+			instance = new Simulator(20,20);
 		}
 		return instance;
 	}
 
-	private Simulator(){
+	private Simulator(int height, int width){
+		this.width = width;
+		this.height = height;
         users = new HashMap<>();
-        field = new Field();
-		grid = new GridView(500,500,field);
+        field = new Field(height,width);
+		grid = new GridView(height,width,field);
 		generateUsers();
+		placeWall();
+		field.createField();
 		placeUser();
+
 	}
 
 
@@ -59,6 +66,13 @@ public class Simulator
 		}
 	}
 
+	private void placeWall()  {
+		for(int i = 0; i < 10; i++) {
+			Wall wall = new Wall();
+			field.placeWall(wall,10,i);
+		}
+	}
+
 	/**
 	 * This run a simulation of one step.
 	 */
@@ -79,22 +93,27 @@ public class Simulator
 		int y = user.getPosition().getY();
 		switch(rand.nextInt(4)) {
 			case 0 :
-				user.setPosition(x+1,y);
+				if(checkX(user))
+					user.setPosition(x + 1, y);
 				break;
 			case 1 :
-				user.setPosition(x-1,y);
+				if(checkX(user))
+					user.setPosition(x-1,y);
 				break;
 			case 2 :
-				user.setPosition(x,y+1);
+				if(checkY(user))
+					user.setPosition(x, y + 1);
 				break;
 			case 3 :
-				user.setPosition(x,y-1);
+				if(checkY(user))
+					user.setPosition(x,y-1);
 				break;
 			default :
 				user.setPosition(x,y);
 				break;
 		}
 	}
+
 
 	/**
 	 * This simulation create random coordinated for every user.
@@ -108,11 +127,35 @@ public class Simulator
 	}
 
 
+	/**
+	 * This method check the coordinate X
+	 * @param user
+	 * @return
+	 */
+	private boolean checkX(User user) {
+		if(user.getPosition().getX() == field.getWidth()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * This method check the coordinate Y
+	 * @param user
+	 * @return
+	 */
+	private boolean checkY(User user) {
+		if(user.getPosition().getY() == field.getHeight()) {
+			return false;
+		}
+		return true;
+	}
+
 
 	/**
 	 * This run a simulation of ten step.
 	 */
-	public void runSimulation() {
+	public void run() {
 		for(int i = 0; i < 10; i++){
 			runOneStep();
 			try {

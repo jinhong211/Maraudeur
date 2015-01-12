@@ -21,7 +21,7 @@ public class SimulationPanel extends JToolBar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
        if(actionEvent.getActionCommand().equals("Launch")){
-           Simulator.getInstance().runSimulation();
+           Simulator.getInstance().start();
        }
     }
 }
