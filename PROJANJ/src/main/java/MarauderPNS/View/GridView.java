@@ -10,11 +10,14 @@ import java.awt.*;
  */
 public class GridView extends JFrame {
 
+
+    private JPanel field;
+
     public GridView(int heigh, int width, Field grid) {
 
         Graphics graphics = getContentPane().getGraphics();
 
-        JPanel field = new FieldPanel(grid);
+        field = new FieldPanel(grid);
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
 
@@ -33,5 +36,10 @@ public class GridView extends JFrame {
         container.requestFocus();
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    @Override
+    public void repaint(){
+        field.repaint();
     }
 }

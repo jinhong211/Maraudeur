@@ -52,16 +52,19 @@ public class Simulator
 
 	public void runOneStep() {
 		Random random = Randomizer.getRandom();
+		Random random2 = Randomizer.getRandom();
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
 			System.out.println(entry.getValue().getPosition().getY());
 			System.out.println(entry.getValue().getPosition().getX());
-			entry.getValue().setPosition(random.nextInt(20),random.nextInt(20));
+			int x = random.nextInt(20);
+			int y = random2.nextInt(20);
+			entry.getValue().setPosition(x,y);
 
 
 			System.out.println(entry.getValue().getPosition().getY());
 			System.out.println(entry.getValue().getPosition().getX());
 		}
-
+		placeUser();
 	}
 
 
