@@ -12,30 +12,16 @@ public class Empty extends Square
 	
 	public Empty(){
 		super();
-        getAccess().add(User.class);
 	}
 
-    public void add() {
-        addPerson(1);
+    public void add(User user) {
+        getPopulation().add(user);
     }
 
-    public void remove() {
-        removePerson(1);
+    public void remove(User user) {
+        //TODO :
     }
 
-    public void addPerson(int nb) {
-        if(nb > 0) {
-            int population = getNbrPeople() + nb;
-            setNbrPeople(population);
-        }
-    }
-
-    public void removePerson(int nb) {
-        if(nb > 0) {
-            int population = getNbrPeople() - nb;
-            setNbrPeople(population);
-        }
-    }
 
 }
 

@@ -23,7 +23,7 @@ public class Field
 
 
     public void place(User user){
-        myTable[0][user.getPosition().getX()][user.getPosition().getY()].add();
+        myTable[0][user.getPosition().getX()][user.getPosition().getY()].add(user);
     }
 }
 

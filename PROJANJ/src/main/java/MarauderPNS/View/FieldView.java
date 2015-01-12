@@ -25,6 +25,7 @@ public class FieldView extends JPanel {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 drawMark(col, row, Color.GRAY);
+
             }
         }
     }

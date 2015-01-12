@@ -1,7 +1,10 @@
 package MarauderPNS.map;
 
 
+import MarauderPNS.user.User;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,14 +15,16 @@ public abstract class Square
 {
 
 	private List<Class> access;
-	private int nbrPeople;
+	private List<User> population;
 
 	public Square(){
+		population = new ArrayList<User>() {
+		};
 		this.access = new ArrayList<>();
-		this.nbrPeople = 0;
+		// TODO : gérer la liste d'acces à la salle.
 	}
 
-	public void add() {
+	public void add(User user) {
 		// TODO : y a deux cas a traiter dans les filles
 	}
 
@@ -31,12 +36,12 @@ public abstract class Square
 		this.access = access;
 	}
 
-	public int getNbrPeople() {
-		return nbrPeople;
+	public List<User> getPopulation() {
+		return population;
 	}
 
-	public void setNbrPeople(int nbrPeople) {
-		this.nbrPeople = nbrPeople;
+	public void setPopulation(List<User> population) {
+		this.population = population;
 	}
 }
 
