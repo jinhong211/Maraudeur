@@ -119,7 +119,7 @@ public class Client
      * @param listOfUsers
      * @return the actual hashmap containing users
      */
-    private HashMap<Integer, User> createUsers(HashMap<Integer, String> listOfUsers) {
+    protected HashMap<Integer, User> createUsers(HashMap<Integer, String> listOfUsers) {
         HashMap<Integer, User> myUsers = new HashMap<>();
         for (Map.Entry<Integer, String> entry : listOfUsers.entrySet()) {
             if (entry.getValue().equals("student"))

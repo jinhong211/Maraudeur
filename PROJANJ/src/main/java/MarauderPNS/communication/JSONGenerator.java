@@ -5,6 +5,7 @@ package MarauderPNS.communication;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
@@ -42,22 +43,34 @@ public class JSONGenerator {
         //NON ! Besoin d'un JSONOBJECT ! Que je peux décoder au fur & à mesure. Utiliser plutôt JSONSIMPLE du coup ! (aussi google)
         HashMap<Integer, String> theUsers = new HashMap<>();
         try {
-            Object obj = parser.parse(iGet);
-            json = (JSONObject) obj;
+            Object obj = JSONValue.parse(iGet);
             //On obtient le tableau de users
-            JSONArray msg = (JSONArray) json.get("return");
+           JSONArray myArrayOfUsers = (JSONArray) ((JSONObject) obj).get("return");
             //On crée un itérateur pour le parcour
-            Iterator<String> iterator = msg.iterator();
             // ma string : donc je la transforme en onbjet JSON encore
-            //
             // {"user":{"id":62,"status":"Teacher"}}
-            while (iterator.hasNext()) {
-                obj = parser.parse(iterator.next());
-                JSONObject theUser = (JSONObject)((JSONObject)obj).get("user");
-                int hisId = (Integer)theUser.get("id");
+            for (Object o : myArrayOfUsers) {
+                obj = JSONValue.parse(o.toString());
+                JSONObject aUser = (JSONObject) obj;
+                JSONObject theUser = (JSONObject)aUser.get("user");
+                Long hislongId = (Long)theUser.get("id");
+                int hisId = hislongId.intValue();
                 String hisStatus = (String)theUser.get("status");
                 theUsers.put(hisId, hisStatus);
             }
+
+            /*
+            String s="[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+  Object obj=JSONValue.parse(s);
+  JSONArray array=(JSONArray)obj;
+  System.out.println("======the 2nd element of array======");
+  System.out.println(array.get(1));
+  System.out.println();
+
+  JSONObject obj2=(JSONObject)array.get(1);
+  System.out.println("======field \"1\"==========");
+  System.out.println(obj2.get("1"));
+             */
 
         }
         catch(Exception e) {
