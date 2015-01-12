@@ -11,13 +11,32 @@ import java.util.List;
 public abstract class Square
 {
 
-	protected List<Class> access;
-
-	
+	private List<Class> access;
+	private int nbrPeople;
 
 	public Square(){
-		access = new ArrayList<>();
+		this.access = new ArrayList<>();
+		this.nbrPeople = 0;
 	}
 
+	public void add() {
+		// TODO : y a deux cas a traiter dans les filles
+	}
+
+	public List<Class> getAccess() {
+		return access;
+	}
+
+	public void setAccess(List<Class> access) {
+		this.access = access;
+	}
+
+	public int getNbrPeople() {
+		return nbrPeople;
+	}
+
+	public void setNbrPeople(int nbrPeople) {
+		this.nbrPeople = nbrPeople;
+	}
 }
 

@@ -1,7 +1,6 @@
 package MarauderPNS.map;
 
 
-import MarauderPNS.user.Student;
 import MarauderPNS.user.User;
 
 /**
@@ -11,22 +10,31 @@ import MarauderPNS.user.User;
 public class Empty extends Square
 {
 	
-	private int nbOfPeople;
-
 	public Empty(){
 		super();
-        access.add(User.class);
-        nbOfPeople = 0;
+        getAccess().add(User.class);
 	}
 
+    public void add() {
+        addPerson(1);
+    }
+
+    public void remove() {
+        removePerson(1);
+    }
+
     public void addPerson(int nb) {
-        if(nb > 0)
-        nbOfPeople += nb;
+        if(nb > 0) {
+            int population = getNbrPeople() + nb;
+            setNbrPeople(population);
+        }
     }
 
     public void removePerson(int nb) {
-        if (nb > 0)
-            nbOfPeople-= nb;
+        if(nb > 0) {
+            int population = getNbrPeople() - nb;
+            setNbrPeople(population);
+        }
     }
 
 }

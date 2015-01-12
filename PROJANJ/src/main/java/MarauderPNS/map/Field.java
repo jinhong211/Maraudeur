@@ -1,6 +1,8 @@
 package MarauderPNS.map;
 
 
+import MarauderPNS.user.User;
+
 /**
  * The Field class, where the map is defined, as a table.
  */
@@ -19,5 +21,9 @@ public class Field
 
 	}
 
+
+    public void place(User user){
+        myTable[0][user.getPosition().getX()][user.getPosition().getY()].add();
+    }
 }
 

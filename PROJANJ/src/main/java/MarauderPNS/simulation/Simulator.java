@@ -24,6 +24,7 @@ public class Simulator
         users = new HashMap<>();
         field = new Field();
 		generateUsers();
+		placeUser();
 	}
 
 
@@ -35,6 +36,15 @@ public class Simulator
 		for(int i = 0; i < 5; i++){
 			User user = new Student();
 			users.put(i+5,user);
+		}
+	}
+
+	/**
+	 * This method look over the hashmap and place all the user on the field. The Field handle where the user is placed.
+	 */
+	private void placeUser() {
+		for(Map.Entry<Integer, User> entry : users.entrySet()){
+			field.place(entry.getValue());
 		}
 	}
 

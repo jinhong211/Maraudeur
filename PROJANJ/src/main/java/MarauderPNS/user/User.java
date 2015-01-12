@@ -27,5 +27,8 @@ public abstract class User
         position.setY(x);
     }
 
+    public Position getPosition() {
+        return position;
+    }
 }
 
