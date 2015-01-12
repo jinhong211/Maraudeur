@@ -53,7 +53,6 @@ public class FieldPanel extends JPanel{
         int teacher = 0;
         for(User user : field.getMyTable()[0][col][row].getPopulation()) {
             if(user instanceof Teacher) {
-               // System.out.println("COUOCOU");
                 teacher++;
             } else if(user instanceof Student) {
                 student++;
@@ -74,8 +73,6 @@ public class FieldPanel extends JPanel{
                 red = 50;
             }
         }
-        System.out.println(blue);
-
         g.setColor(new Color(red,green,blue));
     }
 }

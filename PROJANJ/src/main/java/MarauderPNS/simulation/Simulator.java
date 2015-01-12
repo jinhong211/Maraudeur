@@ -50,15 +50,12 @@ public class Simulator
 		}
 	}
 
-
+	/**
+	 * This run a simulation of one step.
+	 */
 	public void runOneStep() {
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
-			Random rand = new Random();
-			int x = rand.nextInt(20);
-			int y = rand.nextInt(20);
-			entry.getValue().setPosition(x,y);
-			System.out.println(x);
-			System.out.println(y);
+			getCoordRand(entry.getValue());
 		}
 		field.clear();
 
@@ -68,6 +65,26 @@ public class Simulator
 	}
 
 
+
+
+
+
+	/**
+	 * This simulation create random coordinated for every user.
+	 * @param user
+	 */
+	private void getCoordRand(User user){
+		Random rand = new Random();
+		int x = rand.nextInt(20);
+		int y = rand.nextInt(20);
+		user.setPosition(x,y);
+	}
+
+
+
+	/**
+	 * This run a simulation of ten step.
+	 */
 	public void runSimulation() {
 		for(int i = 0; i < 10; i++){
 			runOneStep();
