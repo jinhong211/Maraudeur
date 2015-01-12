@@ -11,7 +11,7 @@ public class SimulatorTest {
 
     @Before
     public void setUp() throws Exception {
-        simulator = new Simulator();
+        simulator = Simulator.getInstance();
     }
 
     @After

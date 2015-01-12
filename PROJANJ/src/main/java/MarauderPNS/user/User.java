@@ -2,7 +2,6 @@
 package MarauderPNS.user;
 
 
-import javafx.geometry.Pos;
 
 /**
  * Classe User, qui définit les personnes modélies sur la carte

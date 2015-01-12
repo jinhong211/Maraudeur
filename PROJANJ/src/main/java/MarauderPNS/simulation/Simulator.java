@@ -21,7 +21,16 @@ public class Simulator
 	private GridView grid;
 	private Field field;
 
-	public Simulator(){
+	private static Simulator instance = null;
+
+	public static Simulator getInstance() {
+		if (Simulator.instance == null) {
+			instance = new Simulator();
+		}
+		return instance;
+	}
+
+	private Simulator(){
         users = new HashMap<>();
         field = new Field();
 		grid = new GridView(500,500,field);

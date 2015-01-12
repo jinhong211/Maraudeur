@@ -1,5 +1,7 @@
 package MarauderPNS.View;
 
+import MarauderPNS.simulation.Simulator;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,8 @@ public class SimulationPanel extends JToolBar implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        System.out.println(actionEvent.getActionCommand());
+       if(actionEvent.getActionCommand().equals("Launch")){
+           Simulator.getInstance().runSimulation();
+       }
     }
 }
