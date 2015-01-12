@@ -14,9 +14,9 @@ public class Student extends User
 	 * <!--  end-user-doc  -->
 	 * @generated
 	 */
-	public Student(int id){
-		super(id);
-	}
 
+	public Student() {
+		super();
+	}
 }
 

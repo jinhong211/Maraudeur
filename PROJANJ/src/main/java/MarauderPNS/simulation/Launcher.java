@@ -1,6 +1,7 @@
 package MarauderPNS.simulation;
 
-import MarauderPNS.view.GridView;
+import MarauderPNS.View.GridView;
+import MarauderPNS.map.Field;
 
 /**
  * Created by Quentin on 09/01/2015.
@@ -8,6 +9,7 @@ import MarauderPNS.view.GridView;
 public class Launcher {
 
     public static void main( String[] args ) {
-        GridView grid = new GridView(500,500);
+        Simulator simulator = new Simulator();
+        GridView grid = new GridView(500,500,simulator.getField());
     }
 }

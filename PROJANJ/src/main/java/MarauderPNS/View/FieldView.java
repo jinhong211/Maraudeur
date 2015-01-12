@@ -18,13 +18,15 @@ public class FieldView extends JPanel {
         this.height = height;
         this.width = width;
         this.g = graphics;
-        showStatus();
+  //      showStatus();
     }
 
+    /*
     public void showStatus() {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 drawMark(col, row, Color.GRAY);
+
             }
         }
     }
@@ -32,11 +34,11 @@ public class FieldView extends JPanel {
     /**
      * Paint on grid location on this field in a given color.
      */
-    public void drawMark(int x, int y, Color color) {
+/*    public void drawMark(int x, int y, Color color) {
 
 
         g.setColor(color);
         g.fillRect(x * 4, y * 4, 4 - 1, 4 - 1);
     }
-
+*/
 }
