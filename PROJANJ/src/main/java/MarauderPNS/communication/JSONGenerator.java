@@ -117,5 +117,9 @@ public class JSONGenerator {
             e.printStackTrace();
         }
     }
+
+    public void getFootPrint(InputStream instream) {
+
+    }
 }
 
