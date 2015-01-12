@@ -1,6 +1,6 @@
 package MarauderPNS.simulation;
 
-import MarauderPNS.view.GridView;
+import MarauderPNS.View.GridView;
 
 /**
  * Created by Quentin on 09/01/2015.

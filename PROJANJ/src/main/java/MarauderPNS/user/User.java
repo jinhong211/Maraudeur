@@ -10,12 +10,17 @@ package MarauderPNS.user;
 public abstract class User
 {
 
-	private int id;
 	private Position position;
 
-	public User(int hisId){
-        id = hisId;
-	}
+    public User(Position pos){
+        this.position = pos;
+    }
+
+    //TODO :  Mettre la pos defaut 5,5 dans l'interface.
+    public User(){
+        this.position = new Position(5,5);
+    }
+
 
     public void setPosition(int x, int y) {
         position.setX(x);
