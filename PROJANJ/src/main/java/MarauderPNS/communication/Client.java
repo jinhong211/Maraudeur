@@ -90,6 +90,8 @@ public class Client
             while ((inputLine = in.readLine()) != null) {
                 iGet = (inputLine); //this will be what's in the JSON format
             }
+            in.close();
+            con.disconnect();
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -130,5 +132,29 @@ public class Client
         return myUsers;
     }
 
+
+    /**
+     * The method use to send to the server the position of a user we'd like to save.
+     * What the server expects :  “params”:  {"id":1,"case":{"x":1,"y":1}, "time":1421052268}
+     * @param user the User, with its position. The method takes in charge the time stamp.
+     */
+    public void saveAMove(int id, User user) {
+        try {
+            String httpsURL = "maraudeur.neowutran.net/add_position";
+            URL myurl = new URL(httpsURL);
+            //WARNING : here, it is likely to crash because the certificate is self-signed
+            HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection();
+            //And if I want to send stg to the server ?
+            OutputStream outs = con.getOutputStream();
+            out = new PrintWriter(outs, true);
+            out.println(jSONGenerator.saveTheMove(id, user));
+            out.close();
+            con.disconnect();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
 

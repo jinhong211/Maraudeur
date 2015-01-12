@@ -3,15 +3,15 @@ package MarauderPNS.communication;
 
 
 
+import MarauderPNS.user.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 
-import java.io.FileReader;
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class JSONGenerator {
     private JSONObject json;
@@ -58,8 +58,16 @@ public class JSONGenerator {
                 String hisStatus = (String)theUser.get("status");
                 theUsers.put(hisId, hisStatus);
             }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return theUsers;
+    }
 
-            /*
+
+
+                /*
             String s="[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
   Object obj=JSONValue.parse(s);
   JSONArray array=(JSONArray)obj;
@@ -72,11 +80,29 @@ public class JSONGenerator {
   System.out.println(obj2.get("1"));
              */
 
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return theUsers;
+    /**
+     * The method to create the json object to ask a move to be saved.
+     * Must look like : “params”:  {"id":1,"case":{"x":1,"y":1}, "time":1421052268}
+     *                   {"balance":1000.21,"num":100,"nickname":null,"is_vip":true,"name":"foo"}
+     * @param user
+     * @return
+     */
+    public JSONObject saveTheMove(int id, User user) {
+        java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+        JSONObject theMove = new JSONObject();
+        JSONObject theDetails = new JSONObject();
+        JSONObject thePosition = new JSONObject();
+
+
+        thePosition.put("x", user.getPosition().getX());
+        thePosition.put("y", user.getPosition().getY());
+
+        theDetails.put("id", id);
+        theDetails.put("case", thePosition);
+        theDetails.put("time", currentTimestamp);
+
+        theMove.put("params", theDetails);
+        return theMove;
     }
 }
 
