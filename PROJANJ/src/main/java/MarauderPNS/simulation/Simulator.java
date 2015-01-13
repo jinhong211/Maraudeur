@@ -16,7 +16,7 @@ import java.util.Random;
  * The Simulator class, which contains the simulation
  */
 
-public class Simulator extends Thread{
+public class Simulator extends Thread {
 	private Map<Integer, User> users;
 	private GridView grid;
 	private int height;
