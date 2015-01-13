@@ -115,6 +115,7 @@ public class Client
             //This is the only line that got changed to bypass the ssl security
             HttpClient httpclient = HttpManager.getNewHttpClient();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/add_position");
+
             // Request parameters and other properties.
             List<NameValuePair> params = new ArrayList<>(1);
             params.add(new BasicNameValuePair("params", jSONGenerator.saveTheMove(id, user)));

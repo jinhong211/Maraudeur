@@ -13,7 +13,6 @@ import java.io.StringWriter;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class JSONGenerator {
     public JSONGenerator(){
@@ -80,9 +79,12 @@ public class JSONGenerator {
 
     public void checkAnswer(InputStream instream) {
         //We want to get that :  { “return” : { “code” : 200 } }
-        Scanner s = new Scanner(instream).useDelimiter("\\A");
+        java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
         try {
-            if (s.hasNext()) assert(s.next().equals("{\"return\":{\"code\":200}}"));
+            while (s.hasNext()) {
+                assert(s.next().equals("{\"return\":{\"code\":200}}"));
+
+            }
         }
         catch(Exception e) {
             e.printStackTrace();

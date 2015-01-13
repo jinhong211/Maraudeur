@@ -98,6 +98,7 @@ public class FieldPanel extends JPanel implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
+  //      System.out.println("Dans le field");
         this.field = Controller.get_instance().getField();
     }
 }
