@@ -14,14 +14,14 @@ public class App
 {
     public static void main( String[] args )
     {
-        /*
+
         System.out.println( "Hello World!" );
         System.out.println("Ca marche !");
         System.out.println("Je suis maintenant sur la branch Client");
 
         Client client = new Client();
         HashMap<Integer, User> result = client.beginSimulation();
-        System.out.println(result.size());
+        /*System.out.println(result.size());
         for (Integer id : result.keySet()) {
             client.saveAMove(id, result.get(id));
         }

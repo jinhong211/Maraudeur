@@ -15,9 +15,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 /**
  * The client class dedicated to communicating with the server, via the https protocol for now
@@ -48,7 +51,7 @@ public class Client
     //Valable seulement poru le 1er sprint, empêche de personnaliser al simulation...
     //Et pas de requête en JSON
     public HashMap<Integer, User> beginSimulation() {
-        String iGet = "";
+        /*String iGet = "";
         HttpGet request = new HttpGet();
         request.setHeader("Accept", "application/json");
         HttpClient httpClient = HttpManager.getNewHttpClient();
@@ -85,7 +88,87 @@ public class Client
 
         }
         HashMap<Integer, String> listOfUsers = jSONGenerator.getNewSimulation(iGet);
-        return createUsers(listOfUsers);
+        return createUsers(listOfUsers);*/
+        String iGet = "";
+        String url = "https://maraudeur.neowutran.net/start_simulation";
+        try {
+            URL obj = new URL(url);
+            System.out.println("Before connection");
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+            System.out.println("After connection");
+
+            //dumpl all cert info
+            if(con==null) System.err.println("probleme");
+
+            try {
+
+                System.out.println("Response Code : " + con.getResponseCode());
+                System.out.println("Cipher Suite : " + con.getCipherSuite());
+                System.out.println("\n");
+
+                java.security.cert.Certificate[] certs = con.getServerCertificates();
+                for(java.security.cert.Certificate cert : certs){
+                    System.out.println("Cert Type : " + cert.getType());
+                    System.out.println("Cert Hash Code : " + cert.hashCode());
+                    System.out.println("Cert Public Key Algorithm : "
+                            + cert.getPublicKey().getAlgorithm());
+                    System.out.println("Cert Public Key Format : "
+                            + cert.getPublicKey().getFormat());
+                    System.out.println("\n");
+                }
+
+            } catch (SSLPeerUnverifiedException e) {
+                e.printStackTrace();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+
+            //Here, we do a GET
+            con.setRequestMethod("GET");
+
+            //add request header
+            con.setRequestProperty("Accept", "application/json");
+
+            int responseCode = con.getResponseCode();
+            System.out.println("\nSending 'GET' request to URL : " + url);
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            iGet += response.toString();
+            in.close();
+
+        }
+        catch (Exception exception) {
+            //erreur
+            //  exception.printStackTrace();
+            System.err.println("Impossible de lire la réponse du serveur");
+            iGet =  "{\"return\":" +
+                    "[" +
+                    "{\"user\":{\"id\":62,\"status\":\"Teacher\"}}," +
+                    "{\"user\":{\"id\":63,\"status\":\"Student\"}}," +
+                    "{\"user\":{\"id\":64,\"status\":\"Student\"}}," +
+                    "{\"user\":{\"id\":65,\"status\":\"Student\"}}," +
+                    "{\"user\":{\"id\":66,\"status\":\"Teacher\"}}," +
+                    "{\"user\":{\"id\":67,\"status\":\"Teacher\"}}," +
+                    "{\"user\":{\"id\":68,\"status\":\"Student\"}}," +
+                    "{\"user\":{\"id\":69,\"status\":\"Teacher\"}}," +
+                    "{\"user\":{\"id\":70,\"status\":\"Student\"}}," +
+                    "{\"user\":{\"id\":71,\"status\":\"Teacher\"}}" +
+                    "]" +
+                    "}";
+        }
+        finally {
+            HashMap<Integer, String> listOfUsers = jSONGenerator.getNewSimulation(iGet);
+
+            return createUsers(listOfUsers);
+        }
     }
 
     /**
