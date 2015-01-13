@@ -1,6 +1,5 @@
 package MarauderPNS.controller;
 
-import MarauderPNS.View.FieldPanel;
 import MarauderPNS.View.GridView;
 import MarauderPNS.communication.Client;
 import MarauderPNS.map.Field;
@@ -31,7 +30,6 @@ public class Controller{
 
     }
 
-    public void setField(Field field){ simulator.setField(field);}
     public Field getField(){
         return simulator.getField();
     }
@@ -45,25 +43,10 @@ public class Controller{
     }
 
     public void run(){
-       Thread thread = new Thread(new Runnable() {
-           @Override
-           public void run() {
-               simulator = new Simulator(height, width);
-               Field field = simulator.getField();
-               FieldPanel fieldPanel = gridView.getField();
-               System.out.println(fieldPanel);
-               field.addObserver(fieldPanel);
-               field.addObserver(gridView);
-               gridView.repaint();
-               System.out.println(field.countObservers());
-               simulator.setField(field);
-               simulator.addObserver(gridView);
-               simulator.run();
-           }
-       });
-        thread.start();
-
-
-
+        simulator = new Simulator(height, width);
+        simulator.getField().addObserver(gridView.getField());
+        simulator.addObserver(gridView);
+        Thread thread = new Thread(simulator);
+        thread.run();
     }
 }

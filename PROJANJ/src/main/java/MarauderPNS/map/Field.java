@@ -60,14 +60,7 @@ public class Field extends Observable
         notifyObservers();
     }
     public void place(User user){
-
         myTable[0][user.getPosition().getX()][user.getPosition().getY()].add(user);
-      //  System.out.println(this.countObservers());
-
-       // notifyAll();
-        //notify();
-        setChanged();
- //       notifyObservers(new Object());
         notifyObservers();
     }
 

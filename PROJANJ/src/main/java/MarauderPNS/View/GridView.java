@@ -54,7 +54,6 @@ public class GridView extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-      //  System.out.println("Dans la grid");
         repaint();
     }
 }
