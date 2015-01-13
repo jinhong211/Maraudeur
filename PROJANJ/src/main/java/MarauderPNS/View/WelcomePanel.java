@@ -29,7 +29,7 @@ public class WelcomePanel extends JToolBar implements ActionListener {
         if(actionEvent.getActionCommand().equals("Launch Simulation")){
             Simulator simulator = new Simulator(20,20);
         } else if(actionEvent.getActionCommand().equals("Launch FootPrint Simulation")){
-            FootPrinter footPrinter = new FootPrinter(20,20);
+            FootPrinter footPrinter = new FootPrinter(20,20, 1);
         }
     }
 }
