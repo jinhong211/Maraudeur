@@ -11,6 +11,7 @@ import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -27,8 +28,8 @@ public class FootPrinter extends Thread {
     private Client client;
     private int step = 0;
     private User theOne;
-    //private List<Position> footPrint;
-    private HashMap<Integer, Position> footPrint;
+    private List<Position> footPrint;
+    //private HashMap<Integer, Position> footPrint;
 
     public FootPrinter(int height, int width, int IdUser){
         this.width = width;
@@ -39,7 +40,7 @@ public class FootPrinter extends Thread {
         field = new Field(height,width);
         grid = new GridView(height,width);
 
-        footPrint = client.replaySomeone(IdUser, users.get(IdUser));
+        footPrint = client.replaySomeone(IdUser);
 
         placeWall();
         field.createField();

@@ -78,21 +78,40 @@ public class FieldPanel extends JPanel implements Observer{
                 student++;
             }
         }
-        int green = 100;
-        int red = 180;
-        int blue = 180;
-        if(student > 0) {
-            blue = blue - (student * 25);
-            if(blue < 50){
-                blue = 50;
+        int green = 210;
+        int red = 210;
+        int blue = 210;
+        if(student > 0 && teacher == 0) {
+            blue = 255;
+            green = green - (student*20);
+            red = red - (student*20);
+            if(green < 0) {
+                green = 0;
+            }
+            if(red < 0) {
+                red = 0;
             }
         }
-        if(teacher > 0) {
-            red = red - (teacher * 25);
-            if(red < 50) {
-                red = 50;
+        if(teacher > 0 && student == 0) {
+            red = 255;
+            green = green - (teacher*20);
+            blue = blue - (teacher*20);
+            if(blue < 0) {
+                blue = 0;
+            }
+            if(green < 0) {
+                green = 0;
             }
         }
+        if(teacher > 0 && student > 0) {
+            red = 255;
+            green = green - (((teacher+student)/2)*20);
+            blue = 255;
+            if(green < 0) {
+                green = 0;
+            }
+        }
+
         g.setColor(new Color(red,green,blue));
     }
 
