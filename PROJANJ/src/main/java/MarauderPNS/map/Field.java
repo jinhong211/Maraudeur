@@ -2,12 +2,13 @@ package MarauderPNS.map;
 
 
 import MarauderPNS.user.User;
+import java.util.Observable;
 
 /**
  * The Field class, where the map is defined, as a table.
  */
 
-public class Field
+public class Field extends Observable
 {
 
 	private Square[][][] myTable;
@@ -45,10 +46,29 @@ public class Field
                 myTable[0][i][j].getPopulation().clear();
             }
         }
+        notifyObservers();
     }
-
+    /**
+     * This method place the wall on the map.
+     */
+    public void placeWall()  {
+        for(int i = 0; i < 10; i++) {
+            Wall wall = new Wall();
+            placeWall(wall,10,i);
+            placeWall(wall,i,15);
+        }
+        notifyObservers();
+    }
     public void place(User user){
+
         myTable[0][user.getPosition().getX()][user.getPosition().getY()].add(user);
+      //  System.out.println(this.countObservers());
+
+       // notifyAll();
+        //notify();
+        setChanged();
+ //       notifyObservers(new Object());
+        notifyObservers();
     }
 
     public void placeWall(Wall wall, int x, int y) {

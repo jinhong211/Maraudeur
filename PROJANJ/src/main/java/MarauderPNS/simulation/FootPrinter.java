@@ -33,9 +33,9 @@ public class FootPrinter extends Thread {
         this.height = height;
         client = new Client();
         //     users = new HashMap<>();
-        users = client.beginSimulation();
+       // users = client.beginSimulation();
         field = new Field(height,width);
-        grid = new GridView(height,width,field, this);
+        grid = new GridView(height,width);
 
         footPrint = client.replaySomeone(IdUser, users.get(IdUser));
 

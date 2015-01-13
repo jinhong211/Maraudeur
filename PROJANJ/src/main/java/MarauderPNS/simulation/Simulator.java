@@ -1,42 +1,37 @@
 package MarauderPNS.simulation;
-
-
-import MarauderPNS.View.GridView;
 import MarauderPNS.communication.Client;
+import MarauderPNS.controller.Controller;
 import MarauderPNS.map.Field;
 import MarauderPNS.map.Wall;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Random;
+import java.util.Observable;
 
 /**
  * The Simulator class, which contains the simulation
  */
 
-public class Simulator extends Thread {
+public class Simulator extends Observable{
 	private Map<Integer, User> users;
-	private GridView grid;
-	private int height;
-	private int width;
-	private Field field;
 	private Client client;
+	private Field field;
 
 
 	public Simulator(int height, int width){
-		this.width = width;
-		this.height = height;
 		client = new Client();
-   //     users = new HashMap<>();
-		users = client.beginSimulation();
-        field = new Field(height,width);
-		grid = new GridView(height,width,field, this);
-	//	generateUsers();
-		placeWall();
+		field = new Field(height,width);
 		field.createField();
-		placeUser();
+		//     users = new HashMap<>();
+		//	generateUsers();
+		field.placeWall();
+
 
 	}
 
@@ -63,34 +58,26 @@ public class Simulator extends Thread {
 		}
 	}
 
-	/**
-	 * This method place the wall on the map.
-	 */
-	private void placeWall()  {
-		for(int i = 0; i < 10; i++) {
-			Wall wall = new Wall();
-			field.placeWall(wall,10,i);
-			field.placeWall(wall,i,15);
-		}
-	}
+
 
 	/**
 	 * This run a simulation of one step.
 	 */
 	public void runOneStep() {
+		System.out.println("Un pas");
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
-			System.out.println("TEST");
+	//		System.out.println("TEST");
 			getLogicCoord(entry.getValue());
-			System.out.println("TEST2");
+	//		System.out.println("TEST2");
 	//		client.saveAMove(entry.getKey(),entry.getValue());
-			System.out.println("TEST3");
+	//		System.out.println("TEST3");
 
 		}
 		field.clear();
 
 		placeUser();
 
-		grid.repaint();
+		notifyObservers();
 	}
 
 	private void getLogicCoord(User user){
@@ -197,14 +184,24 @@ public class Simulator extends Thread {
 	 * This run a simulation of ten step.
 	 */
 	public void run() {
+		System.out.println("lancement de la simulation");
+
+		users = client.beginSimulation();
+		placeUser();
+
+
 		for(int i = 0; i < 50; i++){
-			runOneStep();
+			System.out.println("Dans la simulation");
+
+						runOneStep();
 			try {
-				Thread.sleep(new Long(1000));
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
 		}
+
 	}
 
 	public Map<Integer, User> getUsers() {
