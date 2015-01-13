@@ -51,7 +51,7 @@ public class Client
     //Valable seulement poru le 1er sprint, empêche de personnaliser al simulation...
     //Et pas de requête en JSON
     public HashMap<Integer, User> beginSimulation() {
-        /*String iGet = "";
+        String iGet = "";
         HttpGet request = new HttpGet();
         request.setHeader("Accept", "application/json");
         HttpClient httpClient = HttpManager.getNewHttpClient();
@@ -87,9 +87,10 @@ public class Client
                     "}";
 
         }
+
         HashMap<Integer, String> listOfUsers = jSONGenerator.getNewSimulation(iGet);
-        return createUsers(listOfUsers);*/
-        String iGet = "";
+        return createUsers(listOfUsers);
+        /*String iGet = "";
         String url = "https://maraudeur.neowutran.net/start_simulation";
         try {
             URL obj = new URL(url);
@@ -99,29 +100,6 @@ public class Client
 
             //dumpl all cert info
             if(con==null) System.err.println("probleme");
-
-            try {
-
-                System.out.println("Response Code : " + con.getResponseCode());
-                System.out.println("Cipher Suite : " + con.getCipherSuite());
-                System.out.println("\n");
-
-                java.security.cert.Certificate[] certs = con.getServerCertificates();
-                for(java.security.cert.Certificate cert : certs){
-                    System.out.println("Cert Type : " + cert.getType());
-                    System.out.println("Cert Hash Code : " + cert.hashCode());
-                    System.out.println("Cert Public Key Algorithm : "
-                            + cert.getPublicKey().getAlgorithm());
-                    System.out.println("Cert Public Key Format : "
-                            + cert.getPublicKey().getFormat());
-                    System.out.println("\n");
-                }
-
-            } catch (SSLPeerUnverifiedException e) {
-                e.printStackTrace();
-            } catch (IOException e){
-                e.printStackTrace();
-            }
 
             //Here, we do a GET
             con.setRequestMethod("GET");
@@ -147,7 +125,7 @@ public class Client
         }
         catch (Exception exception) {
             //erreur
-            //  exception.printStackTrace();
+              exception.printStackTrace();
             System.err.println("Impossible de lire la réponse du serveur");
             iGet =  "{\"return\":" +
                     "[" +
@@ -169,6 +147,7 @@ public class Client
 
             return createUsers(listOfUsers);
         }
+        */
     }
 
     /**
