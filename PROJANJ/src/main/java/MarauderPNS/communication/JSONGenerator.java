@@ -49,7 +49,7 @@ public class JSONGenerator {
             Object obj = JSONValue.parse(iGet);
             //On obtient le tableau de users
            JSONArray myArrayOfUsers = (JSONArray) ((JSONObject) obj).get("return");
-            //On crée un itérateur pour le parcour
+            //On crée un itérateur pour le parcourir
             // ma string : donc je la transforme en onbjet JSON encore
             // {"user":{"id":62,"status":"Teacher"}}
             for (Object o : myArrayOfUsers) {
@@ -118,8 +118,40 @@ public class JSONGenerator {
         }
     }
 
-    public void getFootPrint(InputStream instream) {
+    /**
+     * The method to check the footprints the database sent us.
+     * It is supposed to give us
+     * {“return” : { [ “trace” : {“case” :{“x”:1,”y”:1}, “time” : “112345687”} ] ,... } }
 
+     * @param instream
+     * @return Map des User, dont la clef est le timestamp
+     */
+    public HashMap<Integer, User> getFootPrint(InputStream instream, User user) {
+        java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
+        HashMap<Integer, User> footprints = new HashMap<>();
+        try {
+            while (s.hasNext()) {
+                Object obj = JSONValue.parse(s.next());
+                //On obtient le tableau de traces
+                JSONArray myArrayOfFootPrints = (JSONArray) ((JSONObject) obj).get("trace");
+                //On crée un itérateur pour le parcourir
+                // ma string : donc je la transforme en onbjet JSON encore
+                // {"user":{"id":62,"status":"Teacher"}}
+                for (Object o : myArrayOfFootPrints) {
+                    obj = JSONValue.parse(o.toString());
+                    JSONObject aTrace = (JSONObject) obj;
+                    JSONObject coords = (JSONObject)aTrace.get("case");
+                    Long theLongTime = (Long)aTrace.get("time");
+                    int theTime = theLongTime.intValue();
+                    user.setPosition(Integer.parseInt(coords.get("x").toString()), Integer.parseInt(coords.get("x").toString()));
+                    footprints.put(theTime, user);
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return footprints;
     }
 }
 

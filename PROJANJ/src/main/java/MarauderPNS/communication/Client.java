@@ -20,6 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.*;
 import javax.net.ssl.HttpsURLConnection;
 /**
@@ -37,8 +38,6 @@ import javax.net.ssl.HttpsURLConnection;
 public class Client
 {
 	private JSONGenerator jSONGenerator;
-    private PrintWriter out;
-    private BufferedReader in;
 
     /**
      * Client constructor. All the code is useless for now,
@@ -46,36 +45,6 @@ public class Client
      */
 	public Client() {
         jSONGenerator = new JSONGenerator();
-
-      /*  try {
-
-            //Here is my URL
-            String httpsURL = "https://www.gmail.com/";
-            URL myurl = new URL(httpsURL);
-            //WARNING : here, it is likely to crash because the certificate is self-signed
-            HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection();
-            //In a few steps, let's get what's on the server
-            InputStream ins = con.getInputStream();
-            InputStreamReader isr = new InputStreamReader(ins);
-            in = new BufferedReader(isr);
-            String inputLine;
-            //what's on the server now ??
-            while ((inputLine = in.readLine()) != null) {
-                System.out.println(inputLine); //this will be what's in the JSON format
-            }
-            //And if I want to send stg to the server ?
-            OutputStream outs = con.getOutputStream();
-            out = new PrintWriter(outs, true);
-            out.println("That's for the server !");
-            in.close();
-            //This is how to get data from the server. Now, to send him some info :
-        }
-        catch (Exception e) {
-            System.err.println("Exception !");
-            e.printStackTrace();
-        }
-        */
-
 	}
 
 
@@ -84,23 +53,6 @@ public class Client
     //Et pas de requête en JSON
     public HashMap<Integer, User> beginSimulation() {
         String iGet = "";
-        /*try {
-            String httpsURL = "maraudeur.neowutran.net/start_simulation";
-            URL myurl = new URL(httpsURL);
-            //WARNING : here, it is likely to crash because the certificate is self-signed
-            HttpsURLConnection con = (HttpsURLConnection) myurl.openConnection();
-            //In a few steps, let's get what's on the server
-            InputStream ins = con.getInputStream();
-            InputStreamReader isr = new InputStreamReader(ins);
-            in = new BufferedReader(isr);
-            String inputLine;
-            //what's on the server now ??
-            while ((inputLine = in.readLine()) != null) {
-                iGet = (inputLine); //this will be what's in the JSON format
-            }
-            in.close();
-            con.disconnect(); */
-
         HttpGet request = new HttpGet();
         request.setHeader("Accept", "application/json");
         HttpClient httpClient = HttpManager.getNewHttpClient();
@@ -171,7 +123,6 @@ public class Client
             // Request parameters and other properties.
             List<NameValuePair> params = new ArrayList<NameValuePair>(1);
             params.add(new BasicNameValuePair("params", jSONGenerator.saveTheMove(id, user)));
-            System.out.println(jSONGenerator.saveTheMove(id, user));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
     //Execute and get the response.
@@ -186,7 +137,6 @@ public class Client
                 instream.close();
             }
         }
-            out.close();
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -195,10 +145,35 @@ public class Client
 
     /**
      * The method to replay the steps of a user.
-     * @param user the user we want
+     * @param id the id of the user we want
      */
-    public void replaySomeone(User user) {
+    public HashMap<Integer, User> replaySomeone(int id, User user) {
+        try {
+            //This is the only line that got changed to bypass the ssl security
+            HttpClient httpclient = HttpManager.getNewHttpClient();
+            HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/get_footprints");
+            // Request parameters and other properties.
+            List<NameValuePair> params = new ArrayList<>(1);
+            params.add(new BasicNameValuePair("user_id", Integer.toString(id)));
+            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
+            //Execute and get the response.
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                try {
+                    return jSONGenerator.getFootPrint(instream, user);
+                } finally {
+                    instream.close();
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+       return new HashMap<Integer, User>();
     }
 
 
