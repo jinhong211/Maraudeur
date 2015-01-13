@@ -9,6 +9,7 @@ import MarauderPNS.user.Position;
 import MarauderPNS.user.User;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,9 +24,8 @@ public class FootPrinter extends Thread {
     private Field field;
     private Client client;
     private int step = 0;
-    private Integer timestampList[];
     private User theOne;
-    private HashMap<Integer, Position> footPrint;
+    private List<Position> footPrint;
 
 
     public FootPrinter(int height, int width, int IdUser){
@@ -36,20 +36,7 @@ public class FootPrinter extends Thread {
         field = new Field(height,width);
         grid = new GridView(height,width,field, this);
         theOne = users.get(IdUser);
-        footPrint = client.replaySomeone(IdUser, theOne);
-        timestampList = footPrint.keySet().toArray(new Integer[0]);
-        Integer temp[] = timestampList;
-        int compare = timestampList[0];
-        for(int myTemp : temp) {
-            if(compare < myTemp) compare = myTemp;
-        }
-        timestampList[0] = compare;
-        for(int myTimeStamp : timestampList){
-            for(int myTemp : temp) {
-                if(compare < myTemp && compare > myTimeStamp) compare = myTemp;
-            }
-            myTimeStamp = compare;
-        }
+        footPrint = client.replaySomeone(IdUser);
 
         placeWall();
         field.createField();
@@ -93,8 +80,7 @@ public class FootPrinter extends Thread {
     }
 
     public Position getOldestPos() {
-        System.out.println(timestampList[0]);
-        return footPrint.get(timestampList[step++]);
+        return footPrint.get(step++);
     }
 
     /**
