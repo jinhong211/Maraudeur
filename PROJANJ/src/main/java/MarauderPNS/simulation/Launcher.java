@@ -1,6 +1,7 @@
 package MarauderPNS.simulation;
 
 import MarauderPNS.View.GridView;
+import MarauderPNS.View.WelcomeView;
 import MarauderPNS.controller.Controller;
 
 /**
@@ -9,8 +10,6 @@ import MarauderPNS.controller.Controller;
 public class Launcher {
 
     public static void main( String[] args ) {
-
-        Controller controlller = Controller.get_instance();
-        controlller.start_simulation(20,20);
+        WelcomeView welcomeView = new WelcomeView(20,20);
     }
 }

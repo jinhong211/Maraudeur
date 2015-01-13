@@ -25,8 +25,8 @@ public class FootPrinter extends Thread {
     private Client client;
     private int step = 0;
     private User theOne;
-    private List<Position> footPrint;
-
+    //private List<Position> footPrint;
+    private HashMap<Integer, Position> footPrint;
 
     public FootPrinter(int height, int width, int IdUser){
         this.width = width;
@@ -34,9 +34,9 @@ public class FootPrinter extends Thread {
         client = new Client();
         users = client.beginSimulation();
         field = new Field(height,width);
-        grid = new GridView(height,width,field, this);
+        grid = new GridView(height,width);
         theOne = users.get(IdUser);
-        footPrint = client.replaySomeone(IdUser);
+        footPrint = client.replaySomeone(IdUser, theOne);
 
         placeWall();
         field.createField();
