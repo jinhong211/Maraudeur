@@ -11,8 +11,7 @@ import sun.misc.IOUtils;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.HashMap;
+import java.util.*;
 
 public class JSONGenerator {
     public JSONGenerator(){
@@ -79,12 +78,9 @@ public class JSONGenerator {
 
     public void checkAnswer(InputStream instream) {
         //We want to get that :  { “return” : { “code” : 200 } }
-        java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
+        Scanner s = new Scanner(instream).useDelimiter("\\A");
         try {
-            while (s.hasNext()) {
-                assert(s.next().equals("{\"return\":{\"code\":200}}"));
-
-            }
+            if (s.hasNext()) assert(s.next().equals("{\"return\":{\"code\":200}}"));
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -99,32 +95,31 @@ public class JSONGenerator {
      * @param instream
      * @return Map des User, dont la clef est le timestamp
      */
-    public HashMap<Integer, Position> getFootPrint(InputStream instream, User user) {
+    public List<Position> getFootPrint(InputStream instream) {
         java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
-        HashMap<Integer, Position> footprints = new HashMap<>();
+        List<Position> positions = new ArrayList<>();
+        //HashMap<Integer, Position> footprints = new HashMap<>();
         try {
             while (s.hasNext()) {
                 Object obj = JSONValue.parse(s.next());
                 //On obtient le tableau de traces
                 JSONArray myArrayOfFootPrints = (JSONArray) ((JSONObject) obj).get("trace");
-                //On crée un itérateur pour le parcourir
-                // ma string : donc je la transforme en onbjet JSON encore
+               //Pour chaque objet contenu dans le tableau des traces :
                 // {"user":{"id":62,"status":"Teacher"}}
                 for (Object o : myArrayOfFootPrints) {
-                    obj = JSONValue.parse(o.toString());
-                    JSONObject aTrace = (JSONObject) obj;
+                    JSONObject aTrace = (JSONObject) o;
                     JSONObject coords = (JSONObject)aTrace.get("case");
-                    Long theLongTime = (Long)aTrace.get("time");
-                    int theTime = theLongTime.intValue();
+                   // Long theLongTime = (Long)aTrace.get("time");
+                   // int theTime = theLongTime.intValue();
                     Position thePosition = new Position(Integer.parseInt(coords.get("x").toString()), Integer.parseInt(coords.get("x").toString()));
-                    footprints.put(theTime, thePosition);
+                    positions.add(thePosition);
                 }
             }
         }
         catch(Exception e) {
             e.printStackTrace();
         }
-        return footprints;
+        return positions;
     }
 }
 

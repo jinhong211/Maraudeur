@@ -147,7 +147,7 @@ public class Client
      * The method to replay the steps of a user.
      * @param id the id of the user we want
      */
-    public HashMap<Integer, Position> replaySomeone(int id, User user) {
+    public List<Position> replaySomeone(int id) {
         try {
             //This is the only line that got changed to bypass the ssl security
             HttpClient httpclient = HttpManager.getNewHttpClient();
@@ -164,7 +164,7 @@ public class Client
             if (entity != null) {
                 InputStream instream = entity.getContent();
                 try {
-                    return jSONGenerator.getFootPrint(instream, user);
+                    return jSONGenerator.getFootPrint(instream);
                 } finally {
                     instream.close();
                 }
@@ -173,7 +173,7 @@ public class Client
         catch(Exception e) {
             e.printStackTrace();
         }
-       return new HashMap<>();
+       return new ArrayList<>();
     }
 
 }
