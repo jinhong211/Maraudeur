@@ -12,8 +12,10 @@ import java.awt.event.ActionListener;
 public class SimulationPanel extends JToolBar implements ActionListener {
 
     private JButton launch = new JButton("Launch");
-    public SimulationPanel()
+    private Thread simulation;
+    public SimulationPanel(Thread t)
     {
+        simulation = t;
         launch.addActionListener(this);
         this.add(launch);
     }
@@ -21,7 +23,8 @@ public class SimulationPanel extends JToolBar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
        if(actionEvent.getActionCommand().equals("Launch")){
-           Simulator.getInstance().start();
+           simulation.start();
+
        }
     }
 }
