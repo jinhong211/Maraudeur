@@ -35,6 +35,7 @@ public class JSONGenerator {
          HashMap<Integer, String> theUsers = new HashMap<>();
         try {
             Object obj = JSONValue.parse(iGet);
+            System.out.println(iGet);
             //On obtient le tableau de users
            JSONArray myArrayOfUsers = (JSONArray) ((JSONObject) obj).get("return");
             //On crée un itérateur pour le parcourir
