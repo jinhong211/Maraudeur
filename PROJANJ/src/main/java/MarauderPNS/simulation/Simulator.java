@@ -2,6 +2,7 @@ package MarauderPNS.simulation;
 
 
 import MarauderPNS.View.GridView;
+import MarauderPNS.communication.Client;
 import MarauderPNS.map.Field;
 import MarauderPNS.map.Wall;
 import MarauderPNS.user.Student;
@@ -22,6 +23,7 @@ public class Simulator extends Thread {
 	private int height;
 	private int width;
 	private Field field;
+	private Client client;
 
 	private static Simulator instance = null;
 
@@ -35,17 +37,21 @@ public class Simulator extends Thread {
 	private Simulator(int height, int width){
 		this.width = width;
 		this.height = height;
-        users = new HashMap<>();
+		client = new Client();
+   //     users = new HashMap<>();
+		users = client.beginSimulation();
         field = new Field(height,width);
 		grid = new GridView(height,width,field);
-		generateUsers();
+	//	generateUsers();
 		placeWall();
 		field.createField();
 		placeUser();
 
 	}
 
-
+	/**
+	 * Inutile pour le moment si on récupère les informations du serveur.
+	 */
 	private void generateUsers(){
 		for(int i = 0; i < 5; i++){
 			User user = new Teacher();
@@ -66,6 +72,9 @@ public class Simulator extends Thread {
 		}
 	}
 
+	/**
+	 * This method place the wall on the map.
+	 */
 	private void placeWall()  {
 		for(int i = 0; i < 10; i++) {
 			Wall wall = new Wall();
@@ -79,7 +88,12 @@ public class Simulator extends Thread {
 	 */
 	public void runOneStep() {
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
+			System.out.println("TEST");
 			getLogicCoord(entry.getValue());
+			System.out.println("TEST2");
+			client.saveAMove(entry.getKey(),entry.getValue());
+			System.out.println("TEST3");
+
 		}
 		field.clear();
 

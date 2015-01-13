@@ -16,7 +16,7 @@ public class Student extends User
 	 */
 
 	public Student() {
-		super();
+		super(15,15);
 	}
 
 	public Student(int x, int y){
