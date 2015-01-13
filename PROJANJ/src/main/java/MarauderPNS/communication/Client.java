@@ -1,6 +1,7 @@
 package MarauderPNS.communication;
 
 
+import MarauderPNS.user.Position;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
@@ -11,18 +12,13 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
-import sun.misc.IOUtils;
 
-import java.io.BufferedReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.io.*;
-import java.sql.Timestamp;
 import java.util.*;
-import javax.net.ssl.HttpsURLConnection;
 /**
  * The client class dedicated to communicating with the server, via the https protocol for now
  * A quick documention why it's different from http :
@@ -117,29 +113,33 @@ public class Client
     public void saveAMove(int id, User user) {
         try {
             //This is the only line that got changed to bypass the ssl security
-            HttpClient httpclient =HttpManager.getNewHttpClient();
+            HttpClient httpclient = HttpManager.getNewHttpClient();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/add_position");
 
             // Request parameters and other properties.
-            List<NameValuePair> params = new ArrayList<NameValuePair>(1);
+            List<NameValuePair> params = new ArrayList<>(1);
             params.add(new BasicNameValuePair("params", jSONGenerator.saveTheMove(id, user)));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
     //Execute and get the response.
             HttpResponse response = httpclient.execute(httppost);
-            HttpEntity entity = response.getEntity();
-
-        if (entity != null) {
-            InputStream instream = entity.getContent();
-            try {
-                jSONGenerator.checkAnswer(instream);
-            } finally {
-                instream.close();
-            }
-        }
+            checkAnswer(response);
         }
         catch(Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void checkAnswer(HttpResponse response) {
+        try {
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                jSONGenerator.checkAnswer(instream);
+                instream.close();
+            }
+        } catch (java.io.IOException ioException) {
+            ioException.printStackTrace();
         }
     }
 
@@ -147,7 +147,7 @@ public class Client
      * The method to replay the steps of a user.
      * @param id the id of the user we want
      */
-    public HashMap<Integer, User> replaySomeone(int id, User user) {
+    public HashMap<Integer, Position> replaySomeone(int id, User user) {
         try {
             //This is the only line that got changed to bypass the ssl security
             HttpClient httpclient = HttpManager.getNewHttpClient();
@@ -173,7 +173,7 @@ public class Client
         catch(Exception e) {
             e.printStackTrace();
         }
-       return new HashMap<Integer, User>();
+       return new HashMap<>();
     }
 
 
