@@ -1,6 +1,5 @@
 package MarauderPNS.map;
 
-
 import MarauderPNS.user.User;
 
 /**
@@ -12,7 +11,9 @@ public class Empty extends Square
 	
 	public Empty(){
 		super();
-	}
+        getAccess().add(User.class);
+
+    }
 
     public void add(User user) {
         getPopulation().add(user);

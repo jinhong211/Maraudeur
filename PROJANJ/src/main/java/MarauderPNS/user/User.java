@@ -2,7 +2,6 @@
 package MarauderPNS.user;
 
 
-
 /**
  * Classe User, qui définit les personnes modélies sur la carte
  * @generated
@@ -28,6 +27,7 @@ public abstract class User
         position.setX(x);
         position.setY(y);
     }
+
 
     public Position getPosition() {
         return position;

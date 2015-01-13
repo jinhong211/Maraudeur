@@ -70,6 +70,7 @@ public class Simulator extends Thread{
 		for(int i = 0; i < 10; i++) {
 			Wall wall = new Wall();
 			field.placeWall(wall,10,i);
+			field.placeWall(wall,i,15);
 		}
 	}
 
@@ -91,29 +92,29 @@ public class Simulator extends Thread{
 		Random rand = new Random();
 		int x = user.getPosition().getX();
 		int y = user.getPosition().getY();
-		switch(rand.nextInt(4)) {
-			case 0 :
-				if(checkX(user))
-					user.setPosition(x + 1, y);
-				break;
-			case 1 :
-				if(checkX(user))
-					user.setPosition(x-1,y);
-				break;
-			case 2 :
-				if(checkY(user))
-					user.setPosition(x, y + 1);
-				break;
-			case 3 :
-				if(checkY(user))
-					user.setPosition(x,y-1);
-				break;
-			default :
-				user.setPosition(x,y);
-				break;
+		int random = rand.nextInt(4);
+		switch(random) {
+				case 0:
+					if (checkXPlus(user))
+						user.setPosition(x + 1, y);
+					break;
+				case 1:
+					if (checkXMoins(user))
+						user.setPosition(x - 1, y);
+					break;
+				case 2:
+					if (checkYPlus(user))
+						user.setPosition(x, y + 1);
+					break;
+				case 3:
+					if (checkYMoins(user))
+						user.setPosition(x, y - 1);
+					break;
+				default:
+					user.setPosition(x, y);
+					break;
 		}
 	}
-
 
 	/**
 	 * This simulation create random coordinated for every user.
@@ -132,20 +133,55 @@ public class Simulator extends Thread{
 	 * @param user
 	 * @return
 	 */
-	private boolean checkX(User user) {
-		if(user.getPosition().getX() == field.getWidth()) {
+	private boolean checkXPlus(User user) {
+		if(user.getPosition().getX() == field.getWidth() - 1) {
+			return false;
+		} else if(field.getMyTable()[0][user.getPosition().getX()+1][user.getPosition().getY()].getAccess().isEmpty()) {
 			return false;
 		}
 		return true;
 	}
 
 	/**
+	 * This method chec if the coordinate X is equal to 0
+	 * @param user
+	 * @return
+	 */
+	private boolean checkXMoins(User user) {
+		if(user.getPosition().getX() == 0) {
+			return false;
+		}else if(field.getMyTable()[0][user.getPosition().getX()-1][user.getPosition().getY()].getAccess().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
 	 * This method check the coordinate Y
 	 * @param user
 	 * @return
 	 */
-	private boolean checkY(User user) {
-		if(user.getPosition().getY() == field.getHeight()) {
+	private boolean checkYPlus(User user) {
+		if(user.getPosition().getY() == field.getHeight() - 1) {
+			return false;
+		}else if(field.getMyTable()[0][user.getPosition().getX()][user.getPosition().getY()+1].getAccess().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * This method check if the coordinate Y is equal to 0
+	 * @param user
+	 * @return
+	 */
+	private boolean checkYMoins(User user){
+		int x = user.getPosition().getX();
+		int y = user.getPosition().getY();
+		if(user.getPosition().getY() ==  0) {
+			return false;
+		}else if(field.getMyTable()[0][user.getPosition().getX()][user.getPosition().getY()-1].getAccess().isEmpty()) {
 			return false;
 		}
 		return true;
@@ -156,7 +192,7 @@ public class Simulator extends Thread{
 	 * This run a simulation of ten step.
 	 */
 	public void run() {
-		for(int i = 0; i < 10; i++){
+		for(int i = 0; i < 50; i++){
 			runOneStep();
 			try {
 				Thread.sleep(new Long(1000));
