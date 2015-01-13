@@ -13,12 +13,19 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.HttpClientConnectionManager;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.sound.sampled.Line;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.*;
+import java.net.URL;
 import java.util.*;
+
 /**
  * The client class dedicated to communicating with the server, via the https protocol for now
  * A quick documention why it's different from http :
@@ -31,44 +38,53 @@ import java.util.*;
  * Here however, our server has an auto signed certificate, so we must make sure that we still accept it.
  */
 
-public class Client
-{
-	private JSONGenerator jSONGenerator;
+public class Client {
+    private JSONGenerator jSONGenerator;
 
     /**
      * Client constructor. All the code is useless for now,
      * kept as a model for when we'll have to write stuff to the server, or get stuff from him with a real JSOn request
      */
-	public Client() {
+    public Client() {
         jSONGenerator = new JSONGenerator();
-	}
+    }
 
 
     //Besoin de se connecter ICI : maraudeur.neowutran.net/start_simulation
     //Valable seulement poru le 1er sprint, empêche de personnaliser al simulation...
     //Et pas de requête en JSON
     public HashMap<Integer, User> beginSimulation() {
+
         String iGet = "";
-        HttpGet request = new HttpGet();
-        request.setHeader("Accept", "application/json");
-        HttpClient httpClient = HttpManager.getNewHttpClient();
+
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation");
+        // Request parameters and other properties.
+        HashMap<Integer, String> listOfUsers = null;
+        //Execute and get the response.
+        HttpResponse response = null;
         try {
-            try {
-                request.setURI(new URI("https://maraudeur.neowutran.net/start_simulation"));
-            } catch (RuntimeException e) {
+            response = client.execute(httpget);
+            HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader((instream)));
+
+                String output;
+                while ((output = br.readLine()) != null) {
+                    iGet += output;
+                }
+                System.out.println(iGet);
+                try {
+                    listOfUsers = jSONGenerator.getNewSimulation(iGet);
+                } finally {
+                    instream.close();
+                }
             }
-            //Here, supposed to get the json stuff
-            HttpResponse response = httpClient.execute(request);
-            Scanner scanner = new Scanner(response.getEntity().getContent());
-            while (scanner.hasNextLine()) {
-                iGet += scanner.nextLine();
-            }
-        } catch (URISyntaxException | IOException e) {
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-            System.err.println("Impossible de lire la réponse du serveur");
-            iGet =  "{\"return\":" +
+        } catch (IOException e) {
+            iGet = "{\"return\":" +
                     "[" +
                     "{\"user\":{\"id\":62,\"status\":\"Teacher\"}}," +
                     "{\"user\":{\"id\":63,\"status\":\"Student\"}}," +
@@ -82,14 +98,15 @@ public class Client
                     "{\"user\":{\"id\":71,\"status\":\"Teacher\"}}" +
                     "]" +
                     "}";
-
         }
-        HashMap<Integer, String> listOfUsers = jSONGenerator.getNewSimulation(iGet);
+
         return createUsers(listOfUsers);
+
     }
 
     /**
      * Here, we already have a map with the id as key, plus a string which represents the status.
+     *
      * @param listOfUsers
      * @return the actual hashmap containing users
      */
@@ -108,12 +125,13 @@ public class Client
     /**
      * The method use to send to the server the position of a user we'd like to save.
      * What the server expects :  “params”:  {"id":1,"case":{"x":1,"y":1}, "time":1421052268}
+     *
      * @param user the User, with its position. The method takes in charge the time stamp.
      */
     public void saveAMove(int id, User user) {
         try {
             //This is the only line that got changed to bypass the ssl security
-            HttpClient httpclient = HttpManager.getNewHttpClient();
+            HttpClient client = HttpClientBuilder.create().build();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/add_position");
 
             // Request parameters and other properties.
@@ -121,11 +139,10 @@ public class Client
             params.add(new BasicNameValuePair("params", jSONGenerator.saveTheMove(id, user)));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
-    //Execute and get the response.
-            HttpResponse response = httpclient.execute(httppost);
+            //Execute and get the response.
+            HttpResponse response = client.execute(httppost);
             checkAnswer(response);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -145,12 +162,13 @@ public class Client
 
     /**
      * The method to replay the steps of a user.
+     *
      * @param id the id of the user we want
      */
     public List<Position> replaySomeone(int id) {
         try {
             //This is the only line that got changed to bypass the ssl security
-            HttpClient httpclient = HttpManager.getNewHttpClient();
+            HttpClient client = HttpClientBuilder.create().build();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/get_footprints");
             // Request parameters and other properties.
             List<NameValuePair> params = new ArrayList<>(1);
@@ -158,7 +176,7 @@ public class Client
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
             //Execute and get the response.
-            HttpResponse response = httpclient.execute(httppost);
+            HttpResponse response = client.execute(httppost);
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
@@ -169,11 +187,10 @@ public class Client
                     instream.close();
                 }
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-       return new ArrayList<>();
+        return new ArrayList<>();
     }
 
 }
