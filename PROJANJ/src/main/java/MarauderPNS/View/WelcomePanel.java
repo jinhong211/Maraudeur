@@ -31,7 +31,7 @@ public class WelcomePanel extends JToolBar implements ActionListener {
             Controller controlller = Controller.get_instance();
             controlller.start_simulation(20,20);
         } else if(actionEvent.getActionCommand().equals("Launch FootPrint Simulation")){
-            FootPrinter footPrinter = new FootPrinter(20,20, 1);
+            FootPrintView footPrintView = new FootPrintView(20,20);
         }
     }
 }
