@@ -16,6 +16,7 @@
 log/
 target/
 .class
+*.class
 *.pydevproject
 .project
 .metadata
