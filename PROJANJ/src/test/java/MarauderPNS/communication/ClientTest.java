@@ -48,5 +48,4 @@ public class ClientTest {
         assertEquals(Teacher.class, theActualUsers.get(71).getClass());
     }
 
-
 }

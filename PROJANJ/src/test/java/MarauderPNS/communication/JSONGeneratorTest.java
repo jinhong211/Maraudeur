@@ -10,6 +10,9 @@ import org.json.simple.parser.JSONParser;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,28 +55,63 @@ JSONGenerator myGen;
         assertEquals(result.get(71), "Teacher");
     }
 
-
-    //{"id":1,"case":{"x":1,"y":1}, "time":1421052268}
     @Test
     public void testNewMove() throws Exception {
-/*        User aStudent = new Student();
+        User aStudent = new Student();
         String result = myGen.saveTheMove(23, aStudent);
-        JSONObject obj=new JSONObject();
-        obj.put("params","result");
-        String obj2 = obj.toJSONString();
-        Object obj3=JSONValue.parse(obj2);
-        JSONArray array=(JSONArray)obj3;
-        System.out.println(array.get(1));
-
-        JSONObject obj2 = (JSONObject)obj.get("params");
-
-
-        System.out.println("coucou" +obj2.get("id"));
-        assertEquals(23, obj2.get("id"));
-        //Position is 5, 5 by default
-        JSONObject position = (JSONObject)obj2.get("case");
-        assertEquals(aStudent.getPosition().getX(),position.get("x"));
-        assertEquals(aStudent.getPosition().getY(),position.get("y")); */
+        //On récupère la string sous forme d'objet :
+        Object obj = JSONValue.parse(result);
+        //On la transforme en objet JSON :
+        JSONObject theMove = (JSONObject) obj;
+        //Check we can get the ID back :
+        assertEquals((long)23, theMove.get("id"));
+        //Check we can get the position back :
+        JSONObject coords = (JSONObject)theMove.get("case");
+        assertEquals((long) 15, coords.get("x"));
+        assertEquals((long)15, coords.get("y"));
     }
+
+  /* to be tested yet
+    @Test
+    public void testGetFootPrint() throws Exception {
+
+        String myString = "{\"return\":{[\"trace\":" +
+                    "{\"case\":{\"x\":1,\"y\":1},\"time\":\"112345687\"}] ,... } }";
+
+        InputStream is = new ByteArrayInputStream( myString.getBytes() );
+    }
+*/
+    /*
+    public HashMap<Integer, User> getFootPrint(InputStream instream, User user) {
+        java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
+        HashMap<Integer, User> footprints = new HashMap<>();
+        try {
+            while (s.hasNext()) {
+                Object obj = JSONValue.parse(s.next());
+                //On obtient le tableau de traces
+                JSONArray myArrayOfFootPrints = (JSONArray) ((JSONObject) obj).get("trace");
+                //On crée un itérateur pour le parcourir
+                // ma string : donc je la transforme en onbjet JSON encore
+                // {"user":{"id":62,"status":"Teacher"}}
+                for (Object o : myArrayOfFootPrints) {
+                    obj = JSONValue.parse(o.toString());
+                    JSONObject aTrace = (JSONObject) obj;
+                    JSONObject coords = (JSONObject)aTrace.get("case");
+                    Long theLongTime = (Long)aTrace.get("time");
+                    int theTime = theLongTime.intValue();
+                    user.setPosition(Integer.parseInt(coords.get("x").toString()), Integer.parseInt(coords.get("x").toString()));
+                    footprints.put(theTime, user);
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return footprints;
+    }
+
+
+     */
+
 
 }

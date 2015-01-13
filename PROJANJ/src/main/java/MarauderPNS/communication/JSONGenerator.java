@@ -1,8 +1,6 @@
 package MarauderPNS.communication;
 
-
-
-
+import MarauderPNS.user.Position;
 import MarauderPNS.user.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,12 +15,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 public class JSONGenerator {
-    private JSONObject json;
-    private JSONParser parser;
-
     public JSONGenerator(){
-		json = new JSONObject();
-        parser = new JSONParser();
 	}
 
 
@@ -31,8 +24,6 @@ public class JSONGenerator {
      * @return the json string
      */
     public String askNewSimulation() {
-
-
         return null;
     }
 
@@ -42,9 +33,7 @@ public class JSONGenerator {
      * @return the array of String, containing users
      */
     public HashMap<Integer, String> getNewSimulation(String iGet) {
-        //Ici, je récupère une liste, où chaque case contient : {"user":{"id":62,"status":"Teacher"}}
-        //NON ! Besoin d'un JSONOBJECT ! Que je peux décoder au fur & à mesure. Utiliser plutôt JSONSIMPLE du coup ! (aussi google)
-        HashMap<Integer, String> theUsers = new HashMap<>();
+         HashMap<Integer, String> theUsers = new HashMap<>();
         try {
             Object obj = JSONValue.parse(iGet);
             //On obtient le tableau de users
@@ -54,11 +43,10 @@ public class JSONGenerator {
             // {"user":{"id":62,"status":"Teacher"}}
             for (Object o : myArrayOfUsers) {
                 obj = JSONValue.parse(o.toString());
-                JSONObject aUser = (JSONObject) obj;
-                JSONObject theUser = (JSONObject)aUser.get("user");
-                Long hislongId = (Long)theUser.get("id");
+                JSONObject aUser = (JSONObject)((JSONObject) obj).get("user");
+                Long hislongId = (Long) aUser.get("id");
                 int hisId = hislongId.intValue();
-                String hisStatus = (String)theUser.get("status");
+                String hisStatus = (String)aUser.get("status");
                 theUsers.put(hisId, hisStatus);
             }
         }
@@ -67,21 +55,6 @@ public class JSONGenerator {
         }
         return theUsers;
     }
-
-
-
-                /*
-            String s="[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
-  Object obj=JSONValue.parse(s);
-  JSONArray array=(JSONArray)obj;
-  System.out.println("======the 2nd element of array======");
-  System.out.println(array.get(1));
-  System.out.println();
-
-  JSONObject obj2=(JSONObject)array.get(1);
-  System.out.println("======field \"1\"==========");
-  System.out.println(obj2.get("1"));
-             */
 
     /**
      * The method to create the json object to ask a move to be saved.
@@ -126,9 +99,9 @@ public class JSONGenerator {
      * @param instream
      * @return Map des User, dont la clef est le timestamp
      */
-    public HashMap<Integer, User> getFootPrint(InputStream instream, User user) {
+    public HashMap<Integer, Position> getFootPrint(InputStream instream, User user) {
         java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
-        HashMap<Integer, User> footprints = new HashMap<>();
+        HashMap<Integer, Position> footprints = new HashMap<>();
         try {
             while (s.hasNext()) {
                 Object obj = JSONValue.parse(s.next());
@@ -143,8 +116,8 @@ public class JSONGenerator {
                     JSONObject coords = (JSONObject)aTrace.get("case");
                     Long theLongTime = (Long)aTrace.get("time");
                     int theTime = theLongTime.intValue();
-                    user.setPosition(Integer.parseInt(coords.get("x").toString()), Integer.parseInt(coords.get("x").toString()));
-                    footprints.put(theTime, user);
+                    Position thePosition = new Position(Integer.parseInt(coords.get("x").toString()), Integer.parseInt(coords.get("x").toString()));
+                    footprints.put(theTime, thePosition);
                 }
             }
         }
