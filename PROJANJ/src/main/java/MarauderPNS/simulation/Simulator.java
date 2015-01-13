@@ -1,7 +1,4 @@
 package MarauderPNS.simulation;
-
-
-import MarauderPNS.View.GridView;
 import MarauderPNS.communication.Client;
 import MarauderPNS.controller.Controller;
 import MarauderPNS.map.Field;
@@ -9,6 +6,10 @@ import MarauderPNS.map.Wall;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map;
 import java.util.Random;
 import java.util.Observable;
@@ -17,7 +18,7 @@ import java.util.Observable;
  * The Simulator class, which contains the simulation
  */
 
-public class Simulator extends Observable implements Runnable {
+public class Simulator extends Observable{
 	private Map<Integer, User> users;
 	private Client client;
 	private Field field;
@@ -28,10 +29,9 @@ public class Simulator extends Observable implements Runnable {
 		field = new Field(height,width);
 		field.createField();
 		//     users = new HashMap<>();
-		users = client.beginSimulation();
 		//	generateUsers();
 		field.placeWall();
-		placeUser();
+
 
 	}
 
@@ -64,6 +64,7 @@ public class Simulator extends Observable implements Runnable {
 	 * This run a simulation of one step.
 	 */
 	public void runOneStep() {
+		System.out.println("Un pas");
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
 	//		System.out.println("TEST");
 			getLogicCoord(entry.getValue());
@@ -183,14 +184,24 @@ public class Simulator extends Observable implements Runnable {
 	 * This run a simulation of ten step.
 	 */
 	public void run() {
+		System.out.println("lancement de la simulation");
+
+		users = client.beginSimulation();
+		placeUser();
+
+
 		for(int i = 0; i < 50; i++){
-			runOneStep();
+			System.out.println("Dans la simulation");
+
+						runOneStep();
 			try {
-				Thread.sleep(new Long(1000));
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+
 		}
+
 	}
 
 	public Map<Integer, User> getUsers() {

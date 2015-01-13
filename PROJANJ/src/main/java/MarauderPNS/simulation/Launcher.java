@@ -10,7 +10,7 @@ public class Launcher {
 
     public static void main( String[] args ) {
 
-        Controller controlller = Controller.get_instance();
-        controlller.start_simulation(20,20);
+        Controller controller = Controller.get_instance();
+        controller.start_simulation(20,20);
     }
 }
