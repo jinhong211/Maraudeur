@@ -9,7 +9,6 @@ import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -25,23 +24,15 @@ public class Simulator extends Thread {
 	private Field field;
 	private Client client;
 
-	private static Simulator instance = null;
 
-	public static Simulator getInstance() {
-		if (Simulator.instance == null) {
-			instance = new Simulator(20,20);
-		}
-		return instance;
-	}
-
-	private Simulator(int height, int width){
+	public Simulator(int height, int width){
 		this.width = width;
 		this.height = height;
 		client = new Client();
    //     users = new HashMap<>();
 		users = client.beginSimulation();
         field = new Field(height,width);
-		grid = new GridView(height,width,field);
+		grid = new GridView(height,width,field, this);
 	//	generateUsers();
 		placeWall();
 		field.createField();
@@ -91,7 +82,7 @@ public class Simulator extends Thread {
 			System.out.println("TEST");
 			getLogicCoord(entry.getValue());
 			System.out.println("TEST2");
-			client.saveAMove(entry.getKey(),entry.getValue());
+	//		client.saveAMove(entry.getKey(),entry.getValue());
 			System.out.println("TEST3");
 
 		}

@@ -8,6 +8,7 @@ import MarauderPNS.View.GridView;
 public class Launcher {
 
     public static void main( String[] args ) {
-        Simulator simulator = Simulator.getInstance();
+
+        Simulator simulator = new Simulator(20,20);
     }
 }

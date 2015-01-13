@@ -12,10 +12,10 @@ public class GridView extends JFrame {
 
 
     private JPanel field;
-    private SimulationPanel simulationPanel = new SimulationPanel();
+    private SimulationPanel simulationPanel;
 
-    public GridView(int heigh, int width, Field grid) {
-
+    public GridView(int heigh, int width, Field grid, Thread t) {
+        simulationPanel = new SimulationPanel(t);
         Graphics graphics = getContentPane().getGraphics();
 
         field = new FieldPanel(grid);
