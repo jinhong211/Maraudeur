@@ -3,39 +3,34 @@ package MarauderPNS.simulation;
 
 import MarauderPNS.View.GridView;
 import MarauderPNS.communication.Client;
+import MarauderPNS.controller.Controller;
 import MarauderPNS.map.Field;
 import MarauderPNS.map.Wall;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
-
 import java.util.Map;
 import java.util.Random;
+import java.util.Observable;
 
 /**
  * The Simulator class, which contains the simulation
  */
 
-public class Simulator extends Thread {
+public class Simulator extends Observable implements Runnable {
 	private Map<Integer, User> users;
-	private GridView grid;
-	private int height;
-	private int width;
-	private Field field;
 	private Client client;
+	private Field field;
 
 
 	public Simulator(int height, int width){
-		this.width = width;
-		this.height = height;
 		client = new Client();
-   //     users = new HashMap<>();
-		users = client.beginSimulation();
-        field = new Field(height,width);
-		grid = new GridView(height,width,field, this);
-	//	generateUsers();
-		placeWall();
+		field = new Field(height,width);
 		field.createField();
+		//     users = new HashMap<>();
+		users = client.beginSimulation();
+		//	generateUsers();
+		field.placeWall();
 		placeUser();
 
 	}
@@ -63,34 +58,25 @@ public class Simulator extends Thread {
 		}
 	}
 
-	/**
-	 * This method place the wall on the map.
-	 */
-	private void placeWall()  {
-		for(int i = 0; i < 10; i++) {
-			Wall wall = new Wall();
-			field.placeWall(wall,10,i);
-			field.placeWall(wall,i,15);
-		}
-	}
+
 
 	/**
 	 * This run a simulation of one step.
 	 */
 	public void runOneStep() {
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
-			System.out.println("TEST");
+	//		System.out.println("TEST");
 			getLogicCoord(entry.getValue());
-			System.out.println("TEST2");
+	//		System.out.println("TEST2");
 	//		client.saveAMove(entry.getKey(),entry.getValue());
-			System.out.println("TEST3");
+	//		System.out.println("TEST3");
 
 		}
 		field.clear();
 
 		placeUser();
 
-		grid.repaint();
+		notifyObservers();
 	}
 
 	private void getLogicCoord(User user){

@@ -14,6 +14,7 @@ public class App
 {
     public static void main( String[] args )
     {
+        /*
         System.out.println( "Hello World!" );
         System.out.println("Ca marche !");
         System.out.println("Je suis maintenant sur la branch Client");
@@ -24,5 +25,6 @@ public class App
         for (Integer id : result.keySet()) {
             client.saveAMove(id, result.get(id));
         }
+        */
     }
 }

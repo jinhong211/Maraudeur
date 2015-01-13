@@ -4,21 +4,27 @@ import MarauderPNS.map.Field;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by Quentin on 09/01/2015.
  */
-public class GridView extends JFrame {
+public class GridView extends JFrame implements Observer {
 
 
-    private JPanel field;
+    public FieldPanel getField() {
+        return field;
+    }
+
+    private FieldPanel field;
     private SimulationPanel simulationPanel;
 
-    public GridView(int heigh, int width, Field grid, Thread t) {
-        simulationPanel = new SimulationPanel(t);
+    public GridView(int heigh, int width) {
+        simulationPanel = new SimulationPanel();
         Graphics graphics = getContentPane().getGraphics();
 
-        field = new FieldPanel(grid);
+        field = new FieldPanel();
         field.setPreferredSize(new Dimension(20*15, 20*15));
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
         JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
@@ -44,5 +50,10 @@ public class GridView extends JFrame {
     @Override
     public void repaint(){
         field.repaint();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        repaint();
     }
 }
