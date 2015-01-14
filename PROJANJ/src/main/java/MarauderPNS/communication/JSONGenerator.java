@@ -38,6 +38,7 @@ public class JSONGenerator {
             System.out.println(iGet);
             //On obtient le tableau de users
            JSONArray myArrayOfUsers = (JSONArray) ((JSONObject) obj).get("return");
+
             //On crée un itérateur pour le parcourir
             // ma string : donc je la transforme en onbjet JSON encore
             // {"user":{"id":62,"status":"Teacher"}}
@@ -99,56 +100,37 @@ public class JSONGenerator {
      * @return Map des User, dont la clef est le timestamp
      */
     public List<Position> getFootPrint(String heWentThere) {
+        List<Position> positions = new ArrayList<>();
         try {
-
             Object obj = JSONValue.parse(heWentThere);
             System.out.println(heWentThere);
-            //On obtient le tableau de users
-            JSONArray myArrayOfMoves = (JSONArray) ((JSONObject) obj).get("return");
-            //On crée un itérateur pour le parcourir
-            // ma string : donc je la transforme en onbjet JSON encore
-            // {"user":{"id":62,"status":"Teacher"}}
+            //On obtient l'objet trace, qui contient un tableau
+            Object trace =  ((JSONObject)obj).get("return");
+
+            JSONArray myArrayOfMoves = (JSONArray) ((JSONObject) trace).get("trace");
+            //On a maintenant le tableau de déplacements, qui contient pour chaque ligne,
+            //On a à chaque fois : "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
             for (Object o : myArrayOfMoves) {
                 obj = JSONValue.parse(o.toString());
-                JSONObject aUser = (JSONObject) ((JSONObject) obj).get("user");
-                Long hislongId = (Long) aUser.get("id");
-                int hisId = hislongId.intValue();
-                String hisStatus = (String) aUser.get("status");
-                //       theUsers.put(hisId, hisStatus);
+                JSONObject theCase = (JSONObject) ((JSONObject) obj).get("case");
+
+                obj = JSONValue.parse(theCase.toString());
+                Object x = ((JSONObject) obj).get("x");
+                Object y = ((JSONObject) obj).get("y");
+
+                Long hisLongX = (Long) x;
+                int hisX = hisLongX.intValue();
+                Long hisLongY = (Long) y;
+                int hisY = hisLongY.intValue();
+
+                positions.add(new Position(hisX, hisY));
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
 
-
-
-
-        /*java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
-        List<Position> positions = new ArrayList<>();
-        //HashMap<Integer, Position> footprints = new HashMap<>();
-        try {
-            while (s.hasNext()) {
-                Object obj = JSONValue.parse(s.next());
-                //On obtient le tableau de traces
-                JSONArray myArrayOfFootPrints = (JSONArray) ((JSONObject) obj).get("trace");
-               //Pour chaque objet contenu dans le tableau des traces :
-                // {"user":{"id":62,"status":"Teacher"}}
-                for (Object o : myArrayOfFootPrints) {
-                    JSONObject aTrace = (JSONObject) o;
-                    JSONObject coords = (JSONObject)aTrace.get("case");
-                   // Long theLongTime = (Long)aTrace.get("time");
-                   // int theTime = theLongTime.intValue();
-                    Position thePosition = new Position(Integer.parseInt(coords.get("x").toString()), Integer.parseInt(coords.get("x").toString()));
-                    positions.add(thePosition);
-                }
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-        return positions;*/
-            return null;
+        return positions;
     }
 
     public String askOneId(int id) {
