@@ -3,6 +3,7 @@ import MarauderPNS.communication.Client;
 import MarauderPNS.controller.Controller;
 import MarauderPNS.map.Field;
 import MarauderPNS.map.Wall;
+import MarauderPNS.user.Position;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
@@ -10,9 +11,7 @@ import MarauderPNS.user.User;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Map;
-import java.util.Random;
-import java.util.Observable;
+import java.util.*;
 
 /**
  * The Simulator class, which contains the simulation
@@ -22,11 +21,16 @@ public class Simulator extends Observable{
 	private Map<Integer, User> users;
 	private Client client;
 	private Field field;
+	private AStarSimulation starSimulation;
+	private HashMap<Integer, List<Node>> aStar;
 
 
 	public Simulator(int height, int width){
+		aStar = new HashMap<>();
 		client = new Client();
 		field = new Field(height,width);
+		starSimulation = new AStarSimulation(field);
+
 		field.createField();
 		//     users = new HashMap<>();
 		//	generateUsers();
@@ -178,6 +182,35 @@ public class Simulator extends Observable{
 		}
 		return true;
 	}
+
+
+	public void runBis(){
+		users = client.beginSimulation();
+		//	placeUser();
+		int theUser = 0;
+		for(Map.Entry<Integer, User> entry : users.entrySet()) {
+			if(starSimulation.search(entry.getValue(), new Position(2,3)) == 1){
+				aStar.put(entry.getKey(), starSimulation.getResult());
+				theUser = entry.getKey();
+			}
+		}
+
+		List<Node> solution = aStar.get((Object)theUser);
+		for(int i = 0; i < solution.size(); i++) {
+			users.get((Object) theUser).setPosition(solution.get(i).getX(), solution.get(i).getY());
+			field.clear();
+			placeUser();
+			notifyObservers();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+	}
+
 
 
 	/**
