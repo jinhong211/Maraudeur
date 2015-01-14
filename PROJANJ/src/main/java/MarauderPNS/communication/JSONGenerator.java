@@ -93,11 +93,38 @@ public class JSONGenerator {
      * It is supposed to give us
      * {“return” : { [ “trace” : {“case” :{“x”:1,”y”:1}, “time” : “112345687”} ] ,... } }
 
-     * @param instream
+
+     {"return":{"trace":[{"time":"2015-01-12 08:44:28","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:57","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:58","case":{"x":2,"y":2}},{"time":"2015-01-14 10:17:59","case":{"x":3,"y":3}}]}}
+     * @param heWentThere : the JSONString representing the different positions of the user
      * @return Map des User, dont la clef est le timestamp
      */
-    public List<Position> getFootPrint(InputStream instream) {
-        java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
+    public List<Position> getFootPrint(String heWentThere) {
+        try {
+
+            Object obj = JSONValue.parse(heWentThere);
+            System.out.println(heWentThere);
+            //On obtient le tableau de users
+            JSONArray myArrayOfMoves = (JSONArray) ((JSONObject) obj).get("return");
+            //On crée un itérateur pour le parcourir
+            // ma string : donc je la transforme en onbjet JSON encore
+            // {"user":{"id":62,"status":"Teacher"}}
+            for (Object o : myArrayOfMoves) {
+                obj = JSONValue.parse(o.toString());
+                JSONObject aUser = (JSONObject) ((JSONObject) obj).get("user");
+                Long hislongId = (Long) aUser.get("id");
+                int hisId = hislongId.intValue();
+                String hisStatus = (String) aUser.get("status");
+                //       theUsers.put(hisId, hisStatus);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        /*java.util.Scanner s = new java.util.Scanner(instream).useDelimiter("\\A");
         List<Position> positions = new ArrayList<>();
         //HashMap<Integer, Position> footprints = new HashMap<>();
         try {
@@ -120,7 +147,14 @@ public class JSONGenerator {
         catch(Exception e) {
             e.printStackTrace();
         }
-        return positions;
+        return positions;*/
+            return null;
+    }
+
+    public String askOneId(int id) {
+        JSONObject theUser = new JSONObject();
+        theUser.put("user_id", id);
+        return theUser.toString();
     }
 }
 
