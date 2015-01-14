@@ -58,14 +58,18 @@ public class Client {
         String iGet = "";
 
         HttpClient client = HttpClientBuilder.create().build();
-        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation");
+        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation?human_number=100");
         // Request parameters and other properties.
-        HashMap<Integer, String> listOfUsers = null;
+        HashMap<Integer, String> listOfUsers;
         //Execute and get the response.
-        HttpResponse response = null;
+        HttpResponse response;
         try {
+            System.out.println("About to execute the answer");
             response = client.execute(httpget);
+            System.out.println(" answer executed");
+
             HttpEntity entity = response.getEntity();
+            System.out.println(" answer gotten");
 
             if (entity != null) {
                 InputStream instream = entity.getContent();
@@ -76,15 +80,11 @@ public class Client {
                 while ((output = br.readLine()) != null) {
                     iGet += output;
                 }
-                System.out.println(iGet);
-                try {
-                    listOfUsers = jSONGenerator.getNewSimulation(iGet);
-                } finally {
-                    instream.close();
-                }
+                instream.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            System.out.println(ioException.getMessage());
             iGet = "{\"return\":" +
                     "[" +
                     "{\"user\":{\"id\":62,\"status\":\"Teacher\"}}," +
@@ -100,6 +100,11 @@ public class Client {
                     "]" +
                     "}";
         }
+
+                System.out.println(iGet);
+
+        listOfUsers = jSONGenerator.getNewSimulation(iGet);
+
 
         return createUsers(listOfUsers);
 
