@@ -36,7 +36,7 @@ public class FootPrinter extends Thread {
         // users = client.beginSimulation();
         field = new Field(height,width);
         grid = new GridView(height,width);
-        theOne = users.get(18663);
+        theOne = users.get(34160);
         System.out.println(users.toString());
         footPrint = client.replaySomeone(IdUser);
         placeWall();

@@ -103,10 +103,24 @@ public class JSONGenerator {
         List<Position> positions = new ArrayList<>();
         try {
             Object obj = JSONValue.parse(heWentThere);
-            System.out.println(heWentThere);
+            if (((JSONArray)obj).size() == 0) {
+                heWentThere = "{\"return\":" +
+                        "{\"trace\":" +
+                        "[" +
+                        "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
+                        "{\"time\":\"2015-01-14 10:17:57\",\"case\":{\"x\":1,\"y\":1}}," +
+                        "{\"time\":\"2015-01-14 10:17:58\",\"case\":{\"x\":2,\"y\":2}}," +
+                        "{\"time\":\"2015-01-14 10:17:59\",\"case\":{\"x\":3,\"y\":3}}" +
+                        "]" +
+                        "}" +
+                        "}";
+                obj = JSONValue.parse(heWentThere);
+            }
+            System.out.println("He went there : " +heWentThere);
             //On obtient l'objet trace, qui contient un tableau
-            JSONArray trace = (JSONArray) ((JSONArray)obj).get(1);
-            System.out.println(trace.get(1));
+
+            JSONArray trace = (JSONArray) ((JSONObject)obj).get(0);
+            System.out.println(trace.get(0));
            // JSONArray myArrayOfMoves = (JSONArray) ((JSONObject) trace).get("trace");
             //On a maintenant le tableau de déplacements, qui contient pour chaque ligne,
             //On a à chaque fois : "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +

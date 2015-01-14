@@ -58,7 +58,7 @@ public class Client {
         String iGet = "";
 
         HttpClient client = HttpClientBuilder.create().build();
-        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation?human_number=100");
+        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation?human_number=10");
         // Request parameters and other properties.
         HashMap<Integer, String> listOfUsers;
         //Execute and get the response.

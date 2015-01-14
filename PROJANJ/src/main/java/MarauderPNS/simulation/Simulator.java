@@ -88,7 +88,7 @@ public class Simulator extends Observable{
 		Random rand = new Random();
 		int x = user.getPosition().getX();
 		int y = user.getPosition().getY();
-		int random = rand.nextInt(4);
+		int random = rand.nextInt(5);
 		switch(random) {
 				case 0:
 					if (checkXPlus(user))
