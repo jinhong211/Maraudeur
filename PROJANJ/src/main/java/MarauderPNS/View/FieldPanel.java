@@ -41,7 +41,7 @@ public class FieldPanel extends JPanel implements Observer{
             for (int row = 0; row < 20; row++) {
                 for (int col = 0; col < 20; col++) {
                     if (field.getMyTable()[0][col][row].getClass().equals(Wall.class)) {
-                        g.setColor(Color.LIGHT_GRAY);
+                        g.setColor(new Color(0,0,0));
                         g.fillRect(col * 15, row * 15, 20, 20);
                         g.setColor(Color.gray);
                         g.drawRect(col * 15, row * 15, 20, 20);
@@ -104,12 +104,19 @@ public class FieldPanel extends JPanel implements Observer{
             }
         }
         if(teacher > 0 && student > 0) {
-            red = 255;
+            red = 255 - (student*10);
             green = green - (((teacher+student)/2)*20);
-            blue = 255;
+            blue = 255 - (teacher*10);
             if(green < 0) {
                 green = 0;
             }
+            if(red < 0) {
+                red = 0;
+            }
+            if(blue < 0) {
+                blue = 0;
+            }
+
         }
 
         g.setColor(new Color(red,green,blue));

@@ -3,6 +3,7 @@ package MarauderPNS.View;
 import MarauderPNS.controller.Controller;
 import MarauderPNS.simulation.Simulator;
 
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,22 +14,17 @@ import java.awt.event.ActionListener;
 public class SimulationPanel extends JToolBar implements ActionListener {
 
     private JButton launch = new JButton("Launch");
-    private JButton launchTeleportation = new JButton("Simulate");
 
     public SimulationPanel()
     {
         launch.addActionListener(this);
         this.add(launch);
-        launchTeleportation.addActionListener(this);
-        this.add(launchTeleportation);
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
        if(actionEvent.getActionCommand().equals("Launch")){
            Controller.get_instance().run();
-       } else if(actionEvent.getActionCommand().equals("Simulate")){
-           Controller.get_instance().runBis();
        }
     }
 }

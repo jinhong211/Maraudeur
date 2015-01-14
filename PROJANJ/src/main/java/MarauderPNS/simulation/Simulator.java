@@ -184,12 +184,12 @@ public class Simulator extends Observable{
 	}
 
 
-	public void runBis(){
+	public void runBis(Position pos){
 		users = client.beginSimulation();
 		//	placeUser();
 		int theUser = 0;
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
-			if(starSimulation.search(entry.getValue(), new Position(2,3)) == 1){
+			if(starSimulation.search(entry.getValue(), pos) == 1){
 				aStar.put(entry.getKey(), starSimulation.getResult());
 				theUser = entry.getKey();
 			}

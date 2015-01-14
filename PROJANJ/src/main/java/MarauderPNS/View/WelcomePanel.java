@@ -15,7 +15,7 @@ public class WelcomePanel extends JToolBar implements ActionListener {
 
     private JButton launch = new JButton("Launch Simulation");
     private JButton ftprinter = new JButton("Launch FootPrint Simulation");
-    private Thread ftprint = new Thread();
+    private JButton simulate = new JButton("Simulate");
 
     public WelcomePanel()
     {
@@ -23,6 +23,8 @@ public class WelcomePanel extends JToolBar implements ActionListener {
         this.add(launch);
         ftprinter.addActionListener(this);
         this.add(ftprinter);
+        simulate.addActionListener(this);
+        this.add(simulate);
     }
 
     @Override
@@ -32,8 +34,8 @@ public class WelcomePanel extends JToolBar implements ActionListener {
             controlller.start_simulation(20,20);
         } else if(actionEvent.getActionCommand().equals("Launch FootPrint Simulation")){
             controlller.start_footPrint(20,20);
-        } else if(actionEvent.getActionCommand().equals("Launch FootPrint Simulation")){
-            FootPrintView footPrintView = new FootPrintView(20,20);
+        } else if(actionEvent.getActionCommand().equals("Simulate")){
+            Controller.get_instance().start_simulate(20,20);
         }
     }
 }

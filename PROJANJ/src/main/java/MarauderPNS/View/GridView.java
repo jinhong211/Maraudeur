@@ -44,7 +44,7 @@ public class GridView extends JFrame implements Observer {
         this.setLocationRelativeTo(null);
         container.requestFocus();
         this.setVisible(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @Override

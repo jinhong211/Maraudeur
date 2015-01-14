@@ -3,11 +3,14 @@ package MarauderPNS.controller;
 import MarauderPNS.View.FieldPanel;
 import MarauderPNS.View.FootPrintView;
 import MarauderPNS.View.GridView;
+import MarauderPNS.View.SimulateView;
 import MarauderPNS.communication.Client;
 import MarauderPNS.map.Field;
 import MarauderPNS.simulation.Simulator;
+import MarauderPNS.user.Position;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by Quentin on 13/01/2015.
@@ -16,8 +19,8 @@ public class Controller{
 
     private GridView gridView;
     private Simulator simulator;
-    private int height;
-    private int width;
+    private int height = 20;
+    private int width = 20;
 
     private static Controller instance = null;
 
@@ -47,6 +50,10 @@ public class Controller{
         FootPrintView footPrintView = new FootPrintView(20,20);
     }
 
+    public void start_simulate(int height, int width){
+        SimulateView simulateView = new SimulateView(20,20);
+    }
+
     public void run(){
        Thread thread = new Thread(new Runnable() {
            @Override
@@ -67,10 +74,11 @@ public class Controller{
         thread.start();
     }
 
-    public void runBis(){
+    public void runBis(final Position pos){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                gridView = new GridView(height,width);
                 simulator = new Simulator(height, width);
                 Field field = simulator.getField();
                 FieldPanel fieldPanel = gridView.getField();
@@ -81,7 +89,7 @@ public class Controller{
                 System.out.println(field.countObservers());
                 simulator.setField(field);
                 simulator.addObserver(gridView);
-                simulator.runBis();
+                simulator.runBis(pos);
             }
         });
         thread.start();
