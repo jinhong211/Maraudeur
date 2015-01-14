@@ -105,12 +105,12 @@ public class JSONGenerator {
             Object obj = JSONValue.parse(heWentThere);
             System.out.println(heWentThere);
             //On obtient l'objet trace, qui contient un tableau
-            Object trace =  ((JSONObject)obj).get("return");
-
-            JSONArray myArrayOfMoves = (JSONArray) ((JSONObject) trace).get("trace");
+            JSONArray trace = (JSONArray) ((JSONArray)obj).get(1);
+            System.out.println(trace.get(1));
+           // JSONArray myArrayOfMoves = (JSONArray) ((JSONObject) trace).get("trace");
             //On a maintenant le tableau de déplacements, qui contient pour chaque ligne,
             //On a à chaque fois : "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
-            for (Object o : myArrayOfMoves) {
+            for (Object o : trace) {
                 obj = JSONValue.parse(o.toString());
                 JSONObject theCase = (JSONObject) ((JSONObject) obj).get("case");
 
