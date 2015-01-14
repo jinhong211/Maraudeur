@@ -65,8 +65,25 @@ public class Controller{
            }
        });
         thread.start();
+    }
 
-
-
+    public void runBis(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                simulator = new Simulator(height, width);
+                Field field = simulator.getField();
+                FieldPanel fieldPanel = gridView.getField();
+                System.out.println(fieldPanel);
+                field.addObserver(fieldPanel);
+                field.addObserver(gridView);
+                gridView.repaint();
+                System.out.println(field.countObservers());
+                simulator.setField(field);
+                simulator.addObserver(gridView);
+                simulator.runBis();
+            }
+        });
+        thread.start();
     }
 }
