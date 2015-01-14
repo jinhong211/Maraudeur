@@ -19,10 +19,11 @@ public class FootPrintPanel extends JToolBar implements ActionListener {
 
     public FootPrintPanel()
     {
-        toComplete.setSize(10000,toComplete.getHeight());
+
         ftprinter.addActionListener(this);
         this.add(ftprinter);
         this.add(toComplete);
+        toComplete.setSize(10000,toComplete.getHeight());
     }
 
     @Override

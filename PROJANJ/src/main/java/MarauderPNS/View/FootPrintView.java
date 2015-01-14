@@ -23,6 +23,7 @@ public class FootPrintView extends JFrame{
         container.setLayout(new BorderLayout());
         container.add(title, BorderLayout.NORTH);
         container.add(footPrintPane, BorderLayout.SOUTH);
+
         this.setContentPane(container);
         //  this.setSize(this.getToolkit().getScreenSize());
         this.pack();
@@ -30,8 +31,9 @@ public class FootPrintView extends JFrame{
         //     this.setExtendedState(Frame.MAXIMIZED_BOTH);
         this.setLocationRelativeTo(null);
         container.requestFocus();
+        this.setSize(250, this.getHeight());
         this.setVisible(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     @Override
