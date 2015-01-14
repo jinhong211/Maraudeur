@@ -84,6 +84,7 @@ public class Client {
                 }
             }
         } catch (IOException e) {
+            e.printStackTrace();
             iGet = "{\"return\":" +
                     "[" +
                     "{\"user\":{\"id\":62,\"status\":\"Teacher\"}}," +

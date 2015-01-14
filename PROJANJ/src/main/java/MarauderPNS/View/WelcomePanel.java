@@ -27,9 +27,11 @@ public class WelcomePanel extends JToolBar implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        Controller controlller = Controller.get_instance();
         if(actionEvent.getActionCommand().equals("Launch Simulation")){
-            Controller controlller = Controller.get_instance();
             controlller.start_simulation(20,20);
+        } else if(actionEvent.getActionCommand().equals("Launch FootPrint Simulation")){
+            controlller.start_footPrint(20,20);
         } else if(actionEvent.getActionCommand().equals("Launch FootPrint Simulation")){
             FootPrintView footPrintView = new FootPrintView(20,20);
         }

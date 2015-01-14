@@ -33,7 +33,7 @@ public class FootPrinter extends Thread {
         client = new Client();
         users = client.beginSimulation();
         //users = new HashMap<>();
-       // users = client.beginSimulation();
+        // users = client.beginSimulation();
         field = new Field(height,width);
         grid = new GridView(height,width);
         theOne = users.get(18663);
@@ -49,7 +49,7 @@ public class FootPrinter extends Thread {
      * This method look over the hashmap and place all the user on the field. The Field handle where the user is placed.
      */
     private void placeUser() {
-            field.place(theOne);
+        field.place(theOne);
     }
 
     /**

@@ -1,6 +1,7 @@
 package MarauderPNS.controller;
 
 import MarauderPNS.View.FieldPanel;
+import MarauderPNS.View.FootPrintView;
 import MarauderPNS.View.GridView;
 import MarauderPNS.communication.Client;
 import MarauderPNS.map.Field;
@@ -40,8 +41,10 @@ public class Controller{
         this.height = height;
         this.width = width;
         gridView = new GridView(height,width);
+    }
 
-
+    public void start_footPrint(int height, int width){
+        FootPrintView footPrintView = new FootPrintView(20,20);
     }
 
     public void run(){
