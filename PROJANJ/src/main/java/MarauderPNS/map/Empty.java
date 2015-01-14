@@ -15,6 +15,7 @@ public class Empty extends Square
 
     }
 
+
     public void add(User user) {
         getPopulation().add(user);
     }
