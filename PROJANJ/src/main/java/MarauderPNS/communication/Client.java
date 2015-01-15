@@ -153,7 +153,7 @@ public class Client {
      * @param id the id of the user we want
      */
     public List<Position> replaySomeone(int id) {
-        String iWentThere = "";
+        /*String iWentThere = "";
         try {
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/get_footprints");
@@ -185,7 +185,26 @@ public class Client {
                             "]" +
                             "}" +
                             "}";
-                }
+                }*/
+
+        String iWentThere = "{\"myReturn\":" +
+                "{\"myTrace\":" +
+                "[" +
+                "{\"time\":\"2015-01-12 08:44:28\",\"myCase\":{\"x\":1,\"y\":1}}," +
+                "{\"time\":\"2015-01-14 10:17:57\",\"myCase\":{\"x\":1,\"y\":1}}," +
+                "{\"time\":\"2015-01-14 10:17:58\",\"myCase\":{\"x\":2,\"y\":2}}," +
+                "{\"time\":\"2015-01-14 10:17:59\",\"myCase\":{\"x\":3,\"y\":3}}" +
+                "{\"time\":\"2015-01-12 08:44:28\",\"myCase\":{\"x\":3,\"y\":4}}," +
+                "{\"time\":\"2015-01-14 10:17:57\",\"myCase\":{\"x\":4,\"y\":5}}," +
+                "{\"time\":\"2015-01-14 10:17:58\",\"myCase\":{\"x\":5,\"y\":6}}," +
+                "{\"time\":\"2015-01-14 10:17:59\",\"myCase\":{\"x\":6,\"y\":6}}" +
+                "{\"time\":\"2015-01-12 08:44:28\",\"myCase\":{\"x\":7,\"y\":7}}," +
+                "{\"time\":\"2015-01-14 10:17:57\",\"myCase\":{\"x\":8,\"y\":8}}," +
+                "{\"time\":\"2015-01-14 10:17:58\",\"myCase\":{\"x\":9,\"y\":9}}," +
+                "{\"time\":\"2015-01-14 10:17:59\",\"myCase\":{\"x\":10,\"y\":10}}" +
+                "]" +
+                "}" +
+                "}";
 
         return jSONGenerator.getFootPrint(iWentThere);
     }

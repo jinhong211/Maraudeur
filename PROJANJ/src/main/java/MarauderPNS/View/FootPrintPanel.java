@@ -1,6 +1,7 @@
 package MarauderPNS.View;
 
 import MarauderPNS.controller.Controller;
+import MarauderPNS.controller.ControllerFootPrint;
 import MarauderPNS.simulation.FootPrinter;
 import MarauderPNS.simulation.Simulator;
 
@@ -15,11 +16,9 @@ public class FootPrintPanel extends JToolBar implements ActionListener {
 
     private JTextField toComplete = new JTextField();
     private JButton ftprinter = new JButton("Choose Client");
-    private Thread ftprint = new Thread();
 
     public FootPrintPanel()
     {
-
         ftprinter.addActionListener(this);
         this.add(ftprinter);
         this.add(toComplete);
@@ -29,7 +28,7 @@ public class FootPrintPanel extends JToolBar implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getActionCommand().equals("Choose Client")){
-            FootPrinter footPrinter = new FootPrinter(20,20, Integer.parseInt(toComplete.getText()));
+            ControllerFootPrint.get_instance().run();
         }
     }
 }

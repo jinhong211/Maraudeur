@@ -1,6 +1,7 @@
 package MarauderPNS.View;
 
 import MarauderPNS.controller.Controller;
+import MarauderPNS.controller.ControllerFootPrint;
 import MarauderPNS.simulation.FootPrinter;
 import MarauderPNS.simulation.Simulator;
 
@@ -29,13 +30,12 @@ public class WelcomePanel extends JToolBar implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        Controller controlller = Controller.get_instance();
         if(actionEvent.getActionCommand().equals("Launch Simulation")){
-            controlller.start_simulation(20,20);
+            Controller.get_instance().start_simulation(20, 20);
         } else if(actionEvent.getActionCommand().equals("Launch FootPrint Simulation")){
-            controlller.start_footPrint(20,20);
+            ControllerFootPrint.get_instance().start_footPrint(20, 20);
         } else if(actionEvent.getActionCommand().equals("Simulate")){
-            Controller.get_instance().start_simulate(20,20);
+            Controller.get_instance().start_simulate(20, 20);
         }
     }
 }
