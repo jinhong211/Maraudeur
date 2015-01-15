@@ -1,6 +1,7 @@
 package MarauderPNS;
 
 import MarauderPNS.communication.Client;
+import MarauderPNS.readXML.ReadXMLMap;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.User;
 
@@ -13,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.cert.Certificate;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Hello world!
@@ -27,11 +29,15 @@ public class App
         System.out.println( "Hello World!" );
         System.out.println("Ca marche !");
         System.out.println("Je suis maintenant sur la branch Client");
-       // new App().testIt();
-        /*System.out.println(result.size());
-        for (Integer id : result.keySet()) {
-            client.saveAMove(id, result.get(id));
+       ReadXMLMap read =  new ReadXMLMap();
+        read.readFile();
+        List<int[]> theList = read.processCols();
+        for (int i = 0; i< theList.size();i++) {
+            int theCols[] = theList.get(i);
+            System.out.println("column : " + theCols[0]);
+            System.out.println("begin : " + theCols[1]);
+            System.out.println("end : " + theCols[2]);
+
         }
-        */
     }
 }

@@ -1,0 +1,371 @@
+<?xml version="1.0"?>
+	<map>	
+		<!--besoin de num de ligne, début & fin du mur.  donc j'envoie un int[3] à chaque fois
+		//70 lignes pour 100 colonnes -->
+<line id="1">
+	<debut>0</debut>
+	<fin>99</fin>
+</line>
+<line id="2">
+</line>
+<line id="3">
+</line>
+<line id="4">
+</line>
+<line id="5">
+</line>
+<line id="6">
+</line>
+<line id="7">
+</line>
+<line id="8">
+</line>
+<line id="9">
+</line>
+<line id="10">
+</line>
+<line id="11">
+</line>
+<line id="12">
+</line>
+<line id="13">
+</line>
+<line id="14">
+</line>
+<line id="15">
+	<debut>40</debut>
+	<fin>70</fin>
+	<debut>75</debut>
+	<fin>99</fin>
+</line>
+<line id="16">
+</line>
+<line id="17">
+</line>
+<line id="18">
+</line>
+<line id="19">
+</line>
+<line id="20">
+</line>
+<line id="21">
+</line>
+<line id="22">
+</line>
+<line id="23">
+</line>
+<line id="24">
+</line>
+<line id="25">
+</line>
+<line id="26">
+</line>
+<line id="27">
+</line>
+<line id="28">
+</line>
+<line id="29">
+</line>
+<line id="30">
+</line>
+<line id="31">
+</line>
+<line id="32">
+</line>
+<line id="33">
+</line>
+<line id="34">
+</line>
+<line id="35">
+	<debut>0</debut>
+	<fin>40</fin>
+</line>
+<line id="36">
+</line>
+<line id="37">
+</line>
+<line id="38">
+</line>
+<line id="39">
+</line>
+<line id="40">
+	<debut>70</debut>
+	<fin>72</fin>
+	<debut>75</debut>
+	<fin>99</fin>
+</line>
+<line id="41">
+</line>
+<line id="42">
+</line>
+<line id="43">
+</line>
+<line id="44">
+</line>
+<line id="45">
+</line>
+<line id="46">
+</line>
+<line id="47">
+</line>
+<line id="48">
+</line>
+<line id="49">
+</line>
+<line id="50">
+</line>
+<line id="51">
+</line>
+<line id="52">
+</line>
+<line id="53">
+</line>
+<line id="54">
+</line>
+<line id="55">
+	<debut>40</debut>
+	<fin>70</fin>
+</line>
+<line id="56">
+</line>
+<line id="57">
+</line>
+<line id="58">
+</line>
+<line id="59">
+</line>
+<line id="50">
+</line>
+<line id="61">
+</line>
+<line id="62">
+</line>
+<line id="63">
+</line>
+<line id="64">
+</line>
+<line id="65">
+</line>
+<line id="66">
+</line>
+<line id="67">
+</line>
+<line id="68">
+</line>
+<line id="69">
+</line>
+
+<col id="0">
+	<debut>0</debut>
+	<fin>69</fin>
+</col>
+<col id="1">
+</col>
+<col id="2">
+</col>
+<col id="3">
+</col>
+<col id="4">
+</col>
+<col id="5">
+</col>
+<col id="6">
+</col>
+<col id="7">
+</col>
+<col id="8">
+</col>
+<col id="9">
+</col>
+<col id="10">
+</col>
+<col id="11">
+</col>
+<col id="12">
+</col>
+<col id="13">
+</col>
+<col id="14">
+</col>
+<col id="15">
+</col>
+<col id="16">
+</col>
+<col id="17">
+</col>
+<col id="18">
+</col>
+<col id="19">
+</col>
+<col id="20">
+</col>
+<col id="21">
+</col>
+<col id="22">
+</col>
+<col id="23">
+</col>
+<col id="24">
+</col>
+<col id="25">
+</col>
+<col id="26">
+</col>
+<col id="27">
+</col>
+<col id="28">
+</col>
+<col id="29">
+</col>
+<col id="30">
+</col>
+<col id="31">
+</col>
+<col id="32">
+</col>
+<col id="33">
+</col>
+<col id="34">
+</col>
+<col id="35">
+</col>
+<col id="36">
+</col>
+<col id="37">
+</col>
+<col id="38">
+</col>
+<col id="39">
+</col>
+<col id="40">
+	<debut>0</debut>
+	<fin>20</fin>
+	<debut>25</debut>
+	<fin>45</fin>
+	<debut>50</debut>
+	<fin>69</fin>
+</col>
+<col id="41">
+</col>
+<col id="42">
+</col>
+<col id="43">
+</col>
+<col id="44">
+</col>
+<col id="45">
+</col>
+<col id="46">
+</col>
+<col id="47">
+</col>
+<col id="48">
+</col>
+<col id="49">
+</col>
+<col id="50">
+</col>
+<col id="51">
+</col>
+<col id="52">
+</col>
+<col id="53">
+</col>
+<col id="54">
+</col>
+<col id="55">
+</col>
+<col id="56">
+</col>
+<col id="57">
+</col>
+<col id="58">
+</col>
+<col id="59">
+</col>
+<col id="50">
+</col>
+<col id="61">
+</col>
+<col id="62">
+</col>
+<col id="63">
+</col>
+<col id="64">
+</col>
+<col id="65">
+</col>
+<col id="66">
+</col>
+<col id="67">
+</col>
+<col id="68">
+</col>
+<col id="69">
+</col>
+<col id="70">
+	<debut>40</debut>
+	<fin>55</fin>
+</col>
+<col id="71">
+</col>
+<col id="72">
+</col>
+<col id="73">
+</col>
+<col id="74">
+</col>
+<col id="75">
+</col>
+<col id="76">
+</col>
+<col id="77">
+</col>
+<col id="78">
+</col>
+<col id="79">
+</col>
+<col id="80">
+</col>
+<col id="81">
+</col>
+<col id="82">
+</col>
+<col id="83">
+</col>
+<col id="84">
+</col>
+<col id="85">
+</col>
+<col id="86">
+</col>
+<col id="87">
+</col>
+<col id="88">
+</col>
+<col id="89">
+</col>
+<col id="90">
+</col>
+<col id="91">
+</col>
+<col id="92">
+</col>
+<col id="93">
+</col>
+<col id="94">
+</col>
+<col id="95">
+</col>
+<col id="96">
+</col>
+<col id="97">
+</col>
+<col id="98">
+</col>
+<col id="99">
+	<debut>0</debut>
+	<fin>69</fin>
+</col>
+
+</map>
