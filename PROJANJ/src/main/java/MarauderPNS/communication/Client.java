@@ -64,18 +64,12 @@ public class Client {
         //Execute and get the response.
         HttpResponse response;
         try {
-            System.out.println("About to execute the answer");
             response = client.execute(httpget);
-            System.out.println(" answer executed");
-
             HttpEntity entity = response.getEntity();
-            System.out.println(" answer gotten");
-
             if (entity != null) {
                 InputStream instream = entity.getContent();
                 BufferedReader br = new BufferedReader(
                         new InputStreamReader((instream)));
-
                 String output;
                 while ((output = br.readLine()) != null) {
                     iGet += output;
@@ -83,8 +77,6 @@ public class Client {
                 instream.close();
             }
         } catch (Exception ioException) {
-            ioException.printStackTrace();
-            System.out.println(ioException.getMessage());
             iGet = "{\"return\":" +
                     "[" +
                     "{\"user\":{\"id\":62,\"status\":\"Teacher\"}}," +
@@ -100,12 +92,7 @@ public class Client {
                     "]" +
                     "}";
         }
-
-                System.out.println(iGet);
-
         listOfUsers = jSONGenerator.getNewSimulation(iGet);
-
-
         return createUsers(listOfUsers);
 
     }
@@ -136,16 +123,11 @@ public class Client {
      */
     public void saveAMove(int id, User user) {
         try {
-            //This is the only line that got changed to bypass the ssl security
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/add_position");
-
-            // Request parameters and other properties.
             List<NameValuePair> params = new ArrayList<>(1);
             params.add(new BasicNameValuePair("params", jSONGenerator.saveTheMove(id, user)));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-            //Execute and get the response.
             HttpResponse response = client.execute(httppost);
             checkAnswer(response);
         } catch (Exception e) {
@@ -174,15 +156,11 @@ public class Client {
     public List<Position> replaySomeone(int id) {
         String iWentThere = "";
         try {
-            //This is the only line that got changed to bypass the ssl security
             HttpClient client = HttpClientBuilder.create().build();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/get_footprints");
-            // Request parameters and other properties.
             List<NameValuePair> params = new ArrayList<>(1);
             params.add(new BasicNameValuePair("params", jSONGenerator.askOneId(id)));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-            //Execute and get the response.
             HttpResponse response = client.execute(httppost);
             HttpEntity entity = response.getEntity();
 
@@ -190,34 +168,21 @@ public class Client {
                 InputStream instream = entity.getContent();
                 BufferedReader br = new BufferedReader(
                         new InputStreamReader((instream)));
-
                 String output;
                 while ((output = br.readLine()) != null) {
                     iWentThere += output;
                 }
                 instream.close();
             }
-            if (iWentThere.equals("")) {
-                iWentThere = "{\"return\":" +
-                        "{\"trace\":" +
-                        "[" +
-                        "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
-                        "{\"time\":\"2015-01-14 10:17:57\",\"case\":{\"x\":1,\"y\":1}}," +
-                        "{\"time\":\"2015-01-14 10:17:58\",\"case\":{\"x\":2,\"y\":2}}," +
-                        "{\"time\":\"2015-01-14 10:17:59\",\"case\":{\"x\":3,\"y\":3}}" +
-                        "]" +
-                        "}" +
-                        "}";
-            }
         }
                 catch (Exception e) {
-                    iWentThere = "{\"return\":" +
-                            "{\"trace\":" +
+                    iWentThere = "{\"myReturn\":" +
+                            "{\"myTrace\":" +
                             "[" +
-                            "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
-                            "{\"time\":\"2015-01-14 10:17:57\",\"case\":{\"x\":1,\"y\":1}}," +
-                            "{\"time\":\"2015-01-14 10:17:58\",\"case\":{\"x\":2,\"y\":2}}," +
-                            "{\"time\":\"2015-01-14 10:17:59\",\"case\":{\"x\":3,\"y\":3}}" +
+                            "{\"time\":\"2015-01-12 08:44:28\",\"myCase\":{\"x\":1,\"y\":1}}," +
+                            "{\"time\":\"2015-01-14 10:17:57\",\"myCase\":{\"x\":1,\"y\":1}}," +
+                            "{\"time\":\"2015-01-14 10:17:58\",\"myCase\":{\"x\":2,\"y\":2}}," +
+                            "{\"time\":\"2015-01-14 10:17:59\",\"myCase\":{\"x\":3,\"y\":3}}" +
                             "]" +
                             "}" +
                             "}";

@@ -41,8 +41,6 @@ public class JSONGenerator {
            JSONArray myArrayOfUsers = (JSONArray) ((JSONObject) obj).get("return");
 
             //On crée un itérateur pour le parcourir
-            // ma string : donc je la transforme en onbjet JSON encore
-            // {"user":{"id":62,"status":"Teacher"}}
             for (Object o : myArrayOfUsers) {
                 obj = JSONValue.parse(o.toString());
                 JSONObject aUser = (JSONObject)((JSONObject) obj).get("user");
@@ -116,103 +114,33 @@ public class JSONGenerator {
                     "]" +
                     "}" +
                     "}";
-
-            System.out.println("coucou");
             TraceData myTraceData = gson.fromJson(heWentThere, TraceData.class);
-            System.out.println("J'ai converti le gson");
             TraceData.ReturnStuff myReturnStuff = myTraceData.getReturnStuff();
-            System.out.println("je suis passée à hauteur de ce que contient return, donc trace");
-
-            //nullpointer la ligne en dessous !
-
             ArrayList<TraceData.ReturnStuff.MyTrace> myTraces = myReturnStuff.getMyTrace();
-            System.out.println("je suis passée à hauteur de ce que contient trace, donc liste de time & my case");
             for (int i = 0; i<myTraces.size(); i++) {
                 TraceData.ReturnStuff.MyTrace.MyCase myCase = myTraces.get(i).getMyCase();
-
                 int x = myCase.getX();
                 int y = myCase.getX();
-                System.out.println("coord x : " + x + "coord y : " + y);
                 positions.add(new Position(x, y));
             }
-
-
-            //   heWentThere.
-            /*Object obj = JSONValue.parse(heWentThere);
-
-            if (((JSONArray)obj).size() == 0) {
-                heWentThere = "{\"return\":" +
-                        "{\"trace\":" +
-                        "[" +
-                        "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
-                        "{\"time\":\"2015-01-14 10:17:57\",\"case\":{\"x\":1,\"y\":1}}," +
-                        "{\"time\":\"2015-01-14 10:17:58\",\"case\":{\"x\":2,\"y\":2}}," +
-                        "{\"time\":\"2015-01-14 10:17:59\",\"case\":{\"x\":3,\"y\":3}}" +
-                        "]" +
-                        "}" +
-                        "}";
-                obj = JSONValue.parse(heWentThere);
-            }
-            System.out.println("He went there : " +heWentThere);
-            //On obtient l'objet trace, qui contient un tableau
-
-            JSONArray trace = (JSONArray) ((JSONObject)obj).get(0);
-            System.out.println(trace.get(0));
-           // JSONArray myArrayOfMoves = (JSONArray) ((JSONObject) trace).get("trace");
-            //On a maintenant le tableau de déplacements, qui contient pour chaque ligne,
-            //On a à chaque fois : "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
-            for (Object o : trace) {
-                obj = JSONValue.parse(o.toString());
-                JSONObject theCase = (JSONObject) ((JSONObject) obj).get("case");
-
-                obj = JSONValue.parse(theCase.toString());
-                Object x = ((JSONObject) obj).get("x");
-                Object y = ((JSONObject) obj).get("y");
-
-                Long hisLongX = (Long) x;
-                int hisX = hisLongX.intValue();
-                Long hisLongY = (Long) y;
-                int hisY = hisLongY.intValue();
-
-                positions.add(new Position(hisX, hisY));
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
         } catch (Exception e) {
             e.printStackTrace();
         }
         return positions;
     }
 
-  /*  {"return":" +
-        "{\"trace\":" +
-                "[" +
-                "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
-                "{\"time\":\"2015-01-14 10:17:57\",\"case\":{\"x\":1,\"y\":1}}," +
-                "{\"time\":\"2015-01-14 10:17:58\",\"case\":{\"x\":2,\"y\":2}}," +
-                "{\"time\":\"2015-01-14 10:17:59\",\"case\":{\"x\":3,\"y\":3}}" +
-                "]" +
-                "}" +
-                "}";*/
     public class TraceData {
         private ReturnStuff myReturn;
 
       public ReturnStuff getReturnStuff() {
           return myReturn;
       }
-      // Add/generate getters and setters.
-
         public class ReturnStuff {
             private ArrayList<ReturnStuff.MyTrace> myTrace;
 
             public ArrayList<ReturnStuff.MyTrace> getMyTrace() {
                 return myTrace;
             }
-
-
             public class MyTrace {
                 private Object time;
                 private MyCase myCase;
@@ -220,10 +148,6 @@ public class JSONGenerator {
                 public MyCase getMyCase() {
                     return myCase;
                 }
-
-                // Add/generate getters and setters.
-
-
                 public class MyCase {
                     private int x;
                     private int y;
@@ -234,14 +158,10 @@ public class JSONGenerator {
                     public int getY() {
                         return y;
                     }
-
-                    // Add/generate getters and setters.
-                    // PS: I would lowercase the property names in both JSON as this class.
                 }
             }
         }
     }
-
 
     public String askOneId(int id) {
         JSONObject theUser = new JSONObject();
