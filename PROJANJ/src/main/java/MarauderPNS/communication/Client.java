@@ -50,14 +50,14 @@ public class Client {
         jSONGenerator = new JSONGenerator();
     }
 
-
-    //Besoin de se connecter ICI : maraudeur.neowutran.net/start_simulation
-    //Valable seulement poru le 1er sprint, empêche de personnaliser al simulation...
-    //Et pas de requête en JSON
     public HashMap<Integer, User> beginSimulation() {
+        return beginSimulation(10);
+    }
+
+    public HashMap<Integer, User> beginSimulation(int nbOfPeople) {
         String iGet = "";
         HttpClient client = HttpClientBuilder.create().build();
-        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation?human_number=100");
+        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation?human_number="+nbOfPeople);
         // Request parameters and other properties.
         HashMap<Integer, String> listOfUsers;
         //Execute and get the response.
