@@ -13,18 +13,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.sound.sampled.Line;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -41,6 +34,8 @@ import java.util.*;
 
 public class Client {
     private JSONGenerator jSONGenerator;
+    private HttpClient client;
+    private  HttpResponse response;
 
     /**
      * Client constructor. All the code is useless for now,
@@ -48,6 +43,8 @@ public class Client {
      */
     public Client() {
         jSONGenerator = new JSONGenerator();
+        client = HttpClientBuilder.create().build();
+
     }
 
     public HashMap<Integer, User> beginSimulation() {
@@ -56,12 +53,10 @@ public class Client {
 
     public HashMap<Integer, User> beginSimulation(int nbOfPeople) {
         String iGet = "";
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation?human_number="+nbOfPeople);
+        HttpGet httpget = new HttpGet("http://maraudeur.neowutran.net/node/?human_number="+nbOfPeople);
         // Request parameters and other properties.
         HashMap<Integer, String> listOfUsers;
         //Execute and get the response.
-        HttpResponse response;
         try {
             response = client.execute(httpget);
             HttpEntity entity = response.getEntity();
@@ -122,29 +117,29 @@ public class Client {
      */
     public void saveAMove(int id, User user) {
         try {
-            HttpClient client = HttpClientBuilder.create().build();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/add_position");
             List<NameValuePair> params = new ArrayList<>(1);
             params.add(new BasicNameValuePair("params", jSONGenerator.saveTheMove(id, user)));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-            HttpResponse response = client.execute(httppost);
+            response = client.execute(httppost);
             checkAnswer(response);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void checkAnswer(HttpResponse response) {
+    private boolean checkAnswer(HttpResponse theResponse) {
         try {
-            HttpEntity entity = response.getEntity();
+            HttpEntity entity = theResponse.getEntity();
             if (entity != null) {
                 InputStream instream = entity.getContent();
-                jSONGenerator.checkAnswer(instream);
-                instream.close();
+                return jSONGenerator.checkAnswer(instream);
             }
         } catch (java.io.IOException ioException) {
             ioException.printStackTrace();
+            return false;
         }
+        return false;
     }
 
     /**
@@ -155,12 +150,11 @@ public class Client {
     public List<Position> replaySomeone(int id) {
         /*String iWentThere = "";
         try {
-            HttpClient client = HttpClientBuilder.create().build();
             HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/get_footprints");
             List<NameValuePair> params = new ArrayList<>(1);
             params.add(new BasicNameValuePair("params", jSONGenerator.askOneId(id)));
             httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-            HttpResponse response = client.execute(httppost);
+            response = client.execute(httppost);
             HttpEntity entity = response.getEntity();
 
             if (entity != null) {
@@ -213,9 +207,7 @@ public class Client {
     public Square[][] initializeMap() {
         Square myMap[][] = new Square[4][4];
         String iGet="";
-        HttpClient client = HttpClientBuilder.create().build();
         HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/initialize_map");
-        HttpResponse response;
         try {
             response = client.execute(httpget);
             HttpEntity entity = response.getEntity();
@@ -253,6 +245,24 @@ public class Client {
         }
         myMap = jSONGenerator.initializeMap(iGet);
         return myMap;
+    }
+
+    public boolean askConnection(String id, String pwd) {
+        Connection co = new Connection();
+        String newPwd = co.createHash(pwd);
+        if (!newPwd.equals("")) {
+            try {
+                HttpPost httppost = new HttpPost("https://maraudeur.neowutran.net/connect");
+                List<NameValuePair> params = new ArrayList<>(1);
+                params.add(new BasicNameValuePair("params", jSONGenerator.connection(id, newPwd)));
+                httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+                response = client.execute(httppost);
+                return checkAnswer(response);
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return false;
     }
 
 }

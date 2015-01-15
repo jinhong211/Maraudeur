@@ -80,15 +80,17 @@ public class JSONGenerator {
         return theDetails.toString();
     }
 
-    public void checkAnswer(InputStream instream) {
+    public boolean checkAnswer(InputStream instream) {
         //We want to get that :  { “return” : { “code” : 200 } }
         Scanner s = new Scanner(instream).useDelimiter("\\A");
         try {
-            if (s.hasNext()) assert(s.next().equals("{\"return\":{\"code\":200}}"));
+            if (s.hasNext()) return (s.next().equals("{\"return\":{\"code\":200}}"));
         }
         catch(Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return false;
     }
 
     /**
@@ -153,6 +155,14 @@ public class JSONGenerator {
             e.printStackTrace();
         }
         return new Square[0][];
+    }
+
+    public String connection(String id, String newPwd) {
+        JSONObject theInfo = new JSONObject();
+
+        theInfo.put("user_id", id);
+        theInfo.put("hash", newPwd);
+        return theInfo.toString();
     }
 
     public class TraceData {

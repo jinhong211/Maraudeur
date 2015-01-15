@@ -29,7 +29,7 @@ public class App
         System.out.println( "Hello World!" );
         System.out.println("Ca marche !");
         System.out.println("Je suis maintenant sur la branch Client");
-       ReadXMLMap read =  new ReadXMLMap();
+     /*  ReadXMLMap read =  new ReadXMLMap();
         read.readFile();
         List<int[]> theList = read.processCols();
         for (int i = 0; i< theList.size();i++) {
@@ -38,6 +38,9 @@ public class App
             System.out.println("begin : " + theCols[1]);
             System.out.println("end : " + theCols[2]);
 
-        }
+        } */
+        Client client = new Client();
+        HashMap<Integer,User> map = client.beginSimulation(10);
+        System.out.println(map.size());
     }
 }
