@@ -2,6 +2,7 @@ package MarauderPNS.communication;
 
 import MarauderPNS.user.Position;
 import MarauderPNS.user.User;
+import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -93,16 +94,52 @@ public class JSONGenerator {
      * The method to check the footprints the database sent us.
      * It is supposed to give us
      * {“return” : { [ “trace” : {“case” :{“x”:1,”y”:1}, “time” : “112345687”} ] ,... } }
-
-
-     {"return":{"trace":[{"time":"2015-01-12 08:44:28","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:57","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:58","case":{"x":2,"y":2}},{"time":"2015-01-14 10:17:59","case":{"x":3,"y":3}}]}}
+     * <p/>
+     * <p/>
+     * {"return":{"trace":[{"time":"2015-01-12 08:44:28","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:57","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:58","case":{"x":2,"y":2}},{"time":"2015-01-14 10:17:59","case":{"x":3,"y":3}}]}}
+     *
      * @param heWentThere : the JSONString representing the different positions of the user
      * @return Map des User, dont la clef est le timestamp
      */
     public List<Position> getFootPrint(String heWentThere) {
         List<Position> positions = new ArrayList<>();
         try {
-            Object obj = JSONValue.parse(heWentThere);
+            Gson gson = new Gson();
+
+            heWentThere = "{\"myReturn\":" +
+                    "{\"myTrace\":" +
+                    "[" +
+                    "{\"time\":\"2015-01-12 08:44:28\",\"myCase\":{\"x\":1,\"y\":1}}," +
+                    "{\"time\":\"2015-01-14 10:17:57\",\"myCase\":{\"x\":1,\"y\":1}}," +
+                    "{\"time\":\"2015-01-14 10:17:58\",\"myCase\":{\"x\":2,\"y\":2}}," +
+                    "{\"time\":\"2015-01-14 10:17:59\",\"myCase\":{\"x\":3,\"y\":3}}" +
+                    "]" +
+                    "}" +
+                    "}";
+
+            System.out.println("coucou");
+            TraceData myTraceData = gson.fromJson(heWentThere, TraceData.class);
+            System.out.println("J'ai converti le gson");
+            TraceData.ReturnStuff myReturnStuff = myTraceData.getReturnStuff();
+            System.out.println("je suis passée à hauteur de ce que contient return, donc trace");
+
+            //nullpointer la ligne en dessous !
+
+            ArrayList<TraceData.ReturnStuff.MyTrace> myTraces = myReturnStuff.getMyTrace();
+            System.out.println("je suis passée à hauteur de ce que contient trace, donc liste de time & my case");
+            for (int i = 0; i<myTraces.size(); i++) {
+                TraceData.ReturnStuff.MyTrace.MyCase myCase = myTraces.get(i).getMyCase();
+
+                int x = myCase.getX();
+                int y = myCase.getX();
+                System.out.println("coord x : " + x + "coord y : " + y);
+                positions.add(new Position(x, y));
+            }
+
+
+            //   heWentThere.
+            /*Object obj = JSONValue.parse(heWentThere);
+
             if (((JSONArray)obj).size() == 0) {
                 heWentThere = "{\"return\":" +
                         "{\"trace\":" +
@@ -143,9 +180,68 @@ public class JSONGenerator {
         catch (Exception e) {
             e.printStackTrace();
         }
-
+*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return positions;
     }
+
+  /*  {"return":" +
+        "{\"trace\":" +
+                "[" +
+                "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
+                "{\"time\":\"2015-01-14 10:17:57\",\"case\":{\"x\":1,\"y\":1}}," +
+                "{\"time\":\"2015-01-14 10:17:58\",\"case\":{\"x\":2,\"y\":2}}," +
+                "{\"time\":\"2015-01-14 10:17:59\",\"case\":{\"x\":3,\"y\":3}}" +
+                "]" +
+                "}" +
+                "}";*/
+    public class TraceData {
+        private ReturnStuff myReturn;
+
+      public ReturnStuff getReturnStuff() {
+          return myReturn;
+      }
+      // Add/generate getters and setters.
+
+        public class ReturnStuff {
+            private ArrayList<ReturnStuff.MyTrace> myTrace;
+
+            public ArrayList<ReturnStuff.MyTrace> getMyTrace() {
+                return myTrace;
+            }
+
+
+            public class MyTrace {
+                private Object time;
+                private MyCase myCase;
+
+                public MyCase getMyCase() {
+                    return myCase;
+                }
+
+                // Add/generate getters and setters.
+
+
+                public class MyCase {
+                    private int x;
+                    private int y;
+
+                    public int getX() {
+                        return x;
+                    }
+                    public int getY() {
+                        return y;
+                    }
+
+                    // Add/generate getters and setters.
+                    // PS: I would lowercase the property names in both JSON as this class.
+                }
+            }
+        }
+    }
+
 
     public String askOneId(int id) {
         JSONObject theUser = new JSONObject();

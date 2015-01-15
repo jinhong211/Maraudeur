@@ -82,7 +82,7 @@ public class Client {
                 }
                 instream.close();
             }
-        } catch (IOException ioException) {
+        } catch (Exception ioException) {
             ioException.printStackTrace();
             System.out.println(ioException.getMessage());
             iGet = "{\"return\":" +
@@ -196,6 +196,18 @@ public class Client {
                     iWentThere += output;
                 }
                 instream.close();
+            }
+            if (iWentThere.equals("")) {
+                iWentThere = "{\"return\":" +
+                        "{\"trace\":" +
+                        "[" +
+                        "{\"time\":\"2015-01-12 08:44:28\",\"case\":{\"x\":1,\"y\":1}}," +
+                        "{\"time\":\"2015-01-14 10:17:57\",\"case\":{\"x\":1,\"y\":1}}," +
+                        "{\"time\":\"2015-01-14 10:17:58\",\"case\":{\"x\":2,\"y\":2}}," +
+                        "{\"time\":\"2015-01-14 10:17:59\",\"case\":{\"x\":3,\"y\":3}}" +
+                        "]" +
+                        "}" +
+                        "}";
             }
         }
                 catch (Exception e) {

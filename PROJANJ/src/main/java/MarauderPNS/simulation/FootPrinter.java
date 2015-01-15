@@ -6,6 +6,7 @@ import MarauderPNS.communication.Client;
 import MarauderPNS.map.Field;
 import MarauderPNS.map.Wall;
 import MarauderPNS.user.Position;
+import MarauderPNS.user.Teacher;
 import MarauderPNS.user.User;
 
 import java.util.List;
@@ -31,18 +32,19 @@ public class FootPrinter extends Thread {
         this.width = width;
         this.height = height;
         client = new Client();
-        users = client.beginSimulation();
+        //users = client.beginSimulation();
         //users = new HashMap<>();
         // users = client.beginSimulation();
         field = new Field(height,width);
         grid = new GridView(height,width);
-        theOne = users.get(34160);
-        System.out.println(users.toString());
+        theOne = new Teacher();
+        //System.out.println(users.toString());
         footPrint = client.replaySomeone(IdUser);
+        System.out.println(footPrint.toString());
         placeWall();
         field.createField();
         placeUser();
-
+        grid.repaint();
     }
 
     /**
