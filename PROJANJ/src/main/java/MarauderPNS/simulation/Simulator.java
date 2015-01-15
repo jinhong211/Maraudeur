@@ -17,7 +17,7 @@ import java.util.*;
  * The Simulator class, which contains the simulation
  */
 
-public class Simulator extends Observable{
+public class Simulator extends Observable {
 	private Map<Integer, User> users;
 	private Client client;
 	private Field field;

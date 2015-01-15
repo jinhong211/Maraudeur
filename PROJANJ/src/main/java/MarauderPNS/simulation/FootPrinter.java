@@ -1,22 +1,21 @@
 package MarauderPNS.simulation;
+        import MarauderPNS.View.GridView;
+        import MarauderPNS.communication.Client;
+        import MarauderPNS.map.Field;
+        import MarauderPNS.map.Wall;
+        import MarauderPNS.user.Position;
+        import MarauderPNS.user.Teacher;
+        import MarauderPNS.user.User;
 
-
-import MarauderPNS.View.GridView;
-import MarauderPNS.communication.Client;
-import MarauderPNS.map.Field;
-import MarauderPNS.map.Wall;
-import MarauderPNS.user.Position;
-import MarauderPNS.user.Teacher;
-import MarauderPNS.user.User;
-
-import java.util.List;
-import java.util.Map;
+        import java.util.List;
+        import java.util.Map;
+        import java.util.Observable;
 
 /**
  * The Simulator class, which contains the simulation
  */
 
-public class FootPrinter extends Thread {
+public class FootPrinter extends Observable {
     private Map<Integer, User> users;
     private GridView grid;
     private int height;
@@ -37,14 +36,18 @@ public class FootPrinter extends Thread {
         // users = client.beginSimulation();
         field = new Field(height,width);
         grid = new GridView(height,width);
+        field.addObserver(grid);
+        grid.repaint();
         theOne = new Teacher();
         //System.out.println(users.toString());
         footPrint = client.replaySomeone(IdUser);
         System.out.println(footPrint.toString());
         placeWall();
         field.createField();
+        this.setField(field);
+        this.addObserver(grid);
         placeUser();
-        grid.repaint();
+        run();
     }
 
     /**
@@ -78,7 +81,8 @@ public class FootPrinter extends Thread {
     }
 
     private void getLogicCoord(User user){
-        theOne.setPosition(footPrint.get(step++).getX(),footPrint.get(step++).getY());
+        System.out.println(" x:" + footPrint.get(step).getX() + "    y:" + footPrint.get(step).getY());
+        user.setPosition(footPrint.get(step).getX(),footPrint.get(step).getY());
     }
 
     /**
@@ -86,8 +90,9 @@ public class FootPrinter extends Thread {
      */
     public void run() {
 
-        for(int i = 0; i < 50; i++){
+        for(int i = 0; i < footPrint.size(); i++){
             runOneStep();
+            step++;
             try {
                 Thread.sleep(new Long(1000));
             } catch (InterruptedException e) {
@@ -95,5 +100,14 @@ public class FootPrinter extends Thread {
             }
         }
     }
+
+    public Field getField() {
+        return field;
+    }
+
+    public void setField(Field field) {
+        this.field = field;
+    }
+
 }
 

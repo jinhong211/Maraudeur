@@ -1,11 +1,9 @@
 package MarauderPNS.controller;
 
-import MarauderPNS.View.FieldPanel;
-import MarauderPNS.View.FootPrintView;
-import MarauderPNS.View.GridView;
-import MarauderPNS.View.SimulateView;
+import MarauderPNS.View.*;
 import MarauderPNS.communication.Client;
 import MarauderPNS.map.Field;
+import MarauderPNS.simulation.FootPrinter;
 import MarauderPNS.simulation.Simulator;
 import MarauderPNS.user.Position;
 
@@ -18,6 +16,7 @@ import java.awt.*;
 public class Controller{
 
     private GridView gridView;
+    private GridSimulateView gridSimulateView;
     private Simulator simulator;
     private int height = 20;
     private int width = 20;
@@ -73,6 +72,27 @@ public class Controller{
        });
         thread.start();
     }
+
+    /*public void runFootPrint(){
+        System.out.println("I make footprint");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                FootPrinter footPrinter = new FootPrinter(height, width, 0);
+                Field field = footPrinter.getField();
+                FieldPanel fieldPanel = gridSimulateView.getField();
+                System.out.println(fieldPanel);
+                field.addObserver(fieldPanel);
+                field.addObserver(gridSimulateView);
+                gridSimulateView.repaint();
+                System.out.println(field.countObservers());
+                footPrinter.setField(field);
+                footPrinter.addObserver(gridSimulateView);
+                footPrinter.runBis();
+            }
+        });
+        thread.start();
+    }*/
 
     public void runBis(final Position pos){
         Thread thread = new Thread(new Runnable() {

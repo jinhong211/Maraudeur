@@ -17,7 +17,7 @@ public class FootPrintView extends JFrame{
         footPrintPane = new FootPrintPanel();
         Graphics graphics = getContentPane().getGraphics();
 
-        JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
+        JLabel title = new JLabel("Carte du maraudeur : FootPrint",JLabel.CENTER);
 
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
