@@ -1,6 +1,7 @@
 package MarauderPNS;
 
 import MarauderPNS.communication.Client;
+import MarauderPNS.communication.Connection;
 import MarauderPNS.readXML.ReadXMLMap;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.User;
@@ -39,8 +40,12 @@ public class App
             System.out.println("end : " + theCols[2]);
 
         } */
-        Client client = new Client();
+  /*      Client client = new Client();
         HashMap<Integer,User> map = client.beginSimulation(10);
-        System.out.println(map.size());
+        System.out.println(map.size());*/
+
+        Connection co = new Connection();
+
+        System.out.println(co.createHash("admin"));
     }
 }
