@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Marauder>
+	<nbOfUsers>
+	15
+	</nbOfUsers>
+	<Users>
+		<status>
+			teacher
+		</status>
+		<status>
+			student
+		</status>
+	</Users>
+	<group id="5">
+		<position>
+			5,5
+		</position>
+	</group>
+	
+	
+</Marauder>
