@@ -1,6 +1,7 @@
 package MarauderPNS.communication;
 
 
+import MarauderPNS.map.Square;
 import MarauderPNS.user.Position;
 import MarauderPNS.user.Student;
 import MarauderPNS.user.Teacher;
@@ -54,9 +55,7 @@ public class Client {
     //Valable seulement poru le 1er sprint, empêche de personnaliser al simulation...
     //Et pas de requête en JSON
     public HashMap<Integer, User> beginSimulation() {
-
         String iGet = "";
-
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/start_simulation?human_number=100");
         // Request parameters and other properties.
@@ -189,6 +188,52 @@ public class Client {
                 }
 
         return jSONGenerator.getFootPrint(iWentThere);
+    }
+
+
+    public Square[][] initializeMap() {
+        Square myMap[][] = new Square[4][4];
+        String iGet="";
+        HttpClient client = HttpClientBuilder.create().build();
+        HttpGet httpget = new HttpGet("https://maraudeur.neowutran.net/initialize_map");
+        HttpResponse response;
+        try {
+            response = client.execute(httpget);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader((instream)));
+                String output;
+                while ((output = br.readLine()) != null) {
+                    iGet += output;
+                }
+                instream.close();
+            }
+        } catch (Exception exception) {
+            iGet = "{\"return\":" +
+                    "[" +
+                    "{\"myCase\":{\"x\":0,\"y\":0,\"type\":\"wallE\"}}," +
+                    "{\"myCase\":{\"x\":0,\"y\":1,\"type\":\"wallE\"}}," +
+                    "{\"myCase\":{\"x\":0,\"y\":2,\"type\":\"wallE\"}}," +
+                    "{\"myCase\":{\"x\":0,\"y\":3,\"type\":\"wallE\"}}," +
+                    "{\"myCase\":{\"x\":1,\"y\":0,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":1,\"y\":1,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":1,\"y\":2,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":1,\"y\":3,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":2,\"y\":0,\"type\":\"wallI\"}}," +
+                    "{\"myCase\":{\"x\":2,\"y\":1,\"type\":\"wallI\"}}," +
+                    "{\"myCase\":{\"x\":2,\"y\":2,\"type\":\"wallI\"}}," +
+                    "{\"myCase\":{\"x\":2,\"y\":3,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":3,\"y\":0,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":3,\"y\":1,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":3,\"y\":2,\"type\":\"empty\"}}," +
+                    "{\"myCase\":{\"x\":3,\"y\":3,\"type\":\"empty\"}}," +
+                    "]" +
+                    "}";
+        }
+        myMap = jSONGenerator.initializeMap(iGet);
+        return myMap;
     }
 
 }

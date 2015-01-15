@@ -1,5 +1,8 @@
 package MarauderPNS.communication;
 
+import MarauderPNS.map.Empty;
+import MarauderPNS.map.Square;
+import MarauderPNS.map.Wall;
 import MarauderPNS.user.Position;
 import MarauderPNS.user.User;
 import com.google.gson.Gson;
@@ -90,12 +93,6 @@ public class JSONGenerator {
 
     /**
      * The method to check the footprints the database sent us.
-     * It is supposed to give us
-     * {“return” : { [ “trace” : {“case” :{“x”:1,”y”:1}, “time” : “112345687”} ] ,... } }
-     * <p/>
-     * <p/>
-     * {"return":{"trace":[{"time":"2015-01-12 08:44:28","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:57","case":{"x":1,"y":1}},{"time":"2015-01-14 10:17:58","case":{"x":2,"y":2}},{"time":"2015-01-14 10:17:59","case":{"x":3,"y":3}}]}}
-     *
      * @param heWentThere : the JSONString representing the different positions of the user
      * @return Map des User, dont la clef est le timestamp
      */
@@ -127,6 +124,35 @@ public class JSONGenerator {
             e.printStackTrace();
         }
         return positions;
+    }
+
+    public Square[][] initializeMap(String iGet) {
+       // Gson gson = new Gson();
+       // MyMap myMap = gson.fromJson(iGet, MyMap.class);
+        Square [][] theMap = new Square[4][4];
+        try {
+            Object obj = JSONValue.parse(iGet);
+            JSONArray myArrayOfCases = (JSONArray) ((JSONObject) obj).get("return");
+
+            //On crée un itérateur pour le parcourir
+            // "{\"myCase\":{\"x\":0,\"y\":0,\"type\":\"wallE\"}},"
+            for (Object o : myArrayOfCases) {
+                obj = JSONValue.parse(o.toString());
+                JSONObject aUser = (JSONObject)((JSONObject) obj).get("myCase");
+                Long theLongX = (Long) aUser.get("x");
+                int theX = theLongX.intValue();
+                Long theLongY = (Long) aUser.get("y");
+                int theY = theLongY.intValue();
+                String hisStatus = (String)aUser.get("type");
+                if(hisStatus.equalsIgnoreCase("empty")) theMap[theX][theY] = new Empty();
+                else  if(hisStatus.equalsIgnoreCase("wallE")) theMap[theX][theY] = new Wall();
+                else  if(hisStatus.equalsIgnoreCase("wallI")) theMap[theX][theY] = new Wall();
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return new Square[0][];
     }
 
     public class TraceData {
