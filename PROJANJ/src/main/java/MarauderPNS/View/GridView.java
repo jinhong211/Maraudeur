@@ -23,11 +23,10 @@ public class GridView extends JFrame implements Observer {
     public GridView(int heigh, int width) {
         simulationPanel = new SimulationPanel();
         Graphics graphics = getContentPane().getGraphics();
-
-        field = new FieldPanel();
-        field.setPreferredSize(new Dimension(20*15, 20*15));
+        field = new FieldPanel(heigh,width);
+        field.setPreferredSize(new Dimension(heigh*10, width*10));
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
-        JLabel time = new JLabel("Test :" + System.currentTimeMillis(), JLabel.CENTER);
+        JLabel time = new JLabel("Temps :" + System.currentTimeMillis(), JLabel.CENTER);
 
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout());
@@ -36,7 +35,7 @@ public class GridView extends JFrame implements Observer {
         container.add(simulationPanel, BorderLayout.EAST);
         container.add(time, BorderLayout.SOUTH);
         this.setContentPane(container);
-        this.setTitle("TEST");
+        this.setTitle("Carte du Maraudeur");
       //  this.setSize(this.getToolkit().getScreenSize());
         this.pack();
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -54,7 +53,6 @@ public class GridView extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-      //  System.out.println("Dans la grid");
         repaint();
     }
 }

@@ -17,61 +17,95 @@ import java.util.Observer;
  */
 public class FieldPanel extends JPanel implements Observer{
 
-    private Graphics g;
+//    private Graphics g; Avec ca ca marche !
+    private Graphics2D g2d;
+  //  private Graphics g;
     private Field field = null;
-    public FieldPanel() {
+    private int height;
+    private int width;
+
+    public FieldPanel(int width, int height) {
+        this.height = height;
+        this.width = width;
+        field = new Field(width,height);
     }
 
     @Override
-    public void paintComponent(Graphics g){
-        this.g = g;
-        super.paintComponent(g);
-        if(field == null){
-            for (int row = 0; row < 20; row++) {
-                for (int col = 0; col < 20; col++) {
-                    g.setColor(Color.WHITE);
-                    g.fillRect(col * 15, row * 15, 20, 20);
-                    g.setColor(Color.gray);
-                    g.drawRect(col * 15, row * 15, 20, 20);
+    public void paintComponent(Graphics g) {
+        g2d = (Graphics2D) g;
 
-                }
+        BasicStroke bs;
+        bs = new BasicStroke(5, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
+        g2d.setStroke(bs);
+        if(field.getMyTable()[0][40][80].getClass().equals(Wall.class)){
+            System.out.println("Mur");
+            for(int i = 75; i < 100; i++) {
+                g2d.setColor(new Color(0,0,0));
+                g2d.drawLine(i * 10, 40 * 10, i * 10, 40 * 10 + 10);
             }
 
+        }
+        if(field == null){
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    g2d.setColor(Color.WHITE);
+                 //   g2d.fillRect(col * 10, row * 10, 10, 10);
+                }
+            }
         }else {
-            for (int row = 0; row < 20; row++) {
-                for (int col = 0; col < 20; col++) {
-                    if (field.getMyTable()[0][col][row].getClass().equals(Wall.class)) {
-                        g.setColor(new Color(0,0,0));
-                        g.fillRect(col * 15, row * 15, 20, 20);
-                        g.setColor(Color.gray);
-                        g.drawRect(col * 15, row * 15, 20, 20);
-                    } else if (field.getMyTable()[0][col][row].getPopulation().isEmpty()) {
-                        g.setColor(Color.WHITE);
-                        g.fillRect(col * 15, row * 15, 20, 20);
-                        g.setColor(Color.gray);
-                        g.drawRect(col * 15, row * 15, 20, 20);
+            int i = 0;
+            for (int row = 0; row < field.getHeight(); row++) {
+                for (int col = 0; col < field.getWidth(); col++) {
+                    if (field.getMyTable()[0][row][col].getClass().equals(Wall.class)) {
+                    //    System.out.println(i++);
+                        g2d.setColor(new Color(0,0,0));
+                        if (checkWall(col, row)) {
+                            g2d.drawLine(col * 10, row * 10, col * 10, row * 10 + 10);
+                        } else {
+                            g2d.drawLine(col * 10, row * 10, col * 10 + 10, row * 10);
+                        }
+                    } else if (field.getMyTable()[0][row][col].getPopulation().isEmpty()) {
+                        g2d.setColor(Color.WHITE);
+                        g2d.fillRect(col * 10, row * 10, 10, 10);
+                        g2d.setColor(Color.gray);
                     } else {
                         paintUser(col, row, g);
-                        //                g.setColor(Color.BLUE);
-                        g.fillRect(col * 15, row * 15, 20, 20);
-                        g.setColor(Color.gray);
-                        g.drawRect(col * 15, row * 15, 20, 20);
+                        g2d.fillOval(col*10,row*10,10,10);
+                        g2d.setColor(Color.gray);
                     }
                 }
             }
         }
     }
 
+
     /**
-     * This method make the gradient of blue and red in function of concentration of teacher and student.
-     * @param col
-     * @param row
-     * @param graphics
+     * This method check if the wall is vertical or horizontal
+     * Return true if it's a vertical wall else return false;
+     * @param x
+     * @param y
+     * @return
      */
+    private boolean checkWall(int x, int y) {
+        if(x+1 < field.getMyTable()[0][y].length) {
+            if (field.getMyTable()[0][y][x + 1].getClass().equals(Wall.class)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return true;
+    }
+        /**
+         * This method make the gradient of blue and red in function of concentration of teacher and student.
+         * @param col
+         * @param row
+         * @param graphics
+         */
     private void paintUser(int col, int row, Graphics graphics) {
         int student = 0;
         int teacher = 0;
-        for(User user : field.getMyTable()[0][col][row].getPopulation()) {
+        for(User user : field.getMyTable()[0][row][col].getPopulation()) {
             if(user instanceof Teacher) {
                 teacher++;
             } else if(user instanceof Student) {
@@ -119,7 +153,7 @@ public class FieldPanel extends JPanel implements Observer{
 
         }
 
-        g.setColor(new Color(red,green,blue));
+        g2d.setColor(new Color(red,green,blue));
     }
 
     @Override

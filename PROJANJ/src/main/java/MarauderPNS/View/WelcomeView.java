@@ -14,7 +14,7 @@ public class WelcomeView extends JFrame{
     private WelcomePanel welcomePane;
 
     public WelcomeView(int heigh, int width) {
-        welcomePane = new WelcomePanel();
+        welcomePane = new WelcomePanel(heigh, width);
         Graphics graphics = getContentPane().getGraphics();
 
         JLabel title = new JLabel("Carte du maraudeur",JLabel.CENTER);
@@ -24,7 +24,7 @@ public class WelcomeView extends JFrame{
         container.add(title, BorderLayout.NORTH);
         container.add(welcomePane, BorderLayout.SOUTH);
         this.setContentPane(container);
-        this.setTitle("TEST");
+        this.setTitle("Carte du maraudeur");
         //  this.setSize(this.getToolkit().getScreenSize());
         this.pack();
         JFrame.setDefaultLookAndFeelDecorated(true);

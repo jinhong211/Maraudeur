@@ -2,6 +2,10 @@ package MarauderPNS.map;
 
 
 import MarauderPNS.user.User;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 /**
@@ -15,7 +19,7 @@ public class Field extends Observable
     private int height;
     private int width;
 
-	public Field(int height, int width){
+	public Field(int width, int height){
         this.width = width;
         this.height = height;
         myTable = new Square[1][height][width];
@@ -52,13 +56,56 @@ public class Field extends Observable
      * This method place the wall on the map.
      */
     public void placeWall()  {
-        for(int i = 0; i < 10; i++) {
-            Wall wall = new Wall();
-            placeWall(wall,10,i);
-            placeWall(wall,i,15);
+     /*   Wall wall = new Wall();
+        System.out.println("TEST");
+        for(int i = 0; i < 70; i++){
+            placeWall(wall,0,i);
+        }
+        for(int i = 0; i < 30; i++) {
+            placeWall(wall,i,70);
+        }
+
+        for(int i = 0; i < 70; i++) {
+            placeWall(wall,i,0);
+        }
+
+        for(int i = 15; i < 50; i++ ){
+            placeWall(wall, i,25);
+        }
+
+        for(int i = 0; i < 30; i++){
+            placeWall(wall,15,i);
+        }
+
+        for(int i = 69; i > 31; i--){
+            placeWall(wall,15,i);
+        }
+*/
+        notifyObservers();
+    }
+
+    public void drawVerticalWall(ArrayList<int[]> tableau){
+        for(int i = 0; i < tableau.size(); i++) {
+            for(int k = tableau.get(i)[1];k < tableau.get(i)[2];k++) {
+                Wall wall = new Wall();
+                placeWall(wall,tableau.get(i)[0],k);
+            }
         }
         notifyObservers();
     }
+
+
+    public void drawHorizontalWall(ArrayList<int[]> tableau) {
+        for(int i = 0; i < tableau.size(); i++) {
+            for(int k = tableau.get(i)[1]; k < tableau.get(i)[2]; k++){
+                Wall wall = new Wall();
+                placeWall(wall, k, tableau.get(i)[0]);
+            }
+        }
+        notifyObservers();
+    }
+
+
     public void place(User user){
 
         myTable[0][user.getPosition().getX()][user.getPosition().getY()].add(user);

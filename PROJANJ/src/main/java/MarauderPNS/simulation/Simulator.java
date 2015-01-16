@@ -29,13 +29,13 @@ public class Simulator extends Observable {
 		aStar = new HashMap<>();
 		client = new Client();
 		field = new Field(height,width);
+		System.out.println("TAILLE DE GRILLE" + field.getWidth());
 		starSimulation = new AStarSimulation(field);
 
 		field.createField();
 		//     users = new HashMap<>();
 		//	generateUsers();
 		field.placeWall();
-
 
 	}
 
@@ -68,7 +68,7 @@ public class Simulator extends Observable {
 	 * This run a simulation of one step.
 	 */
 	public void runOneStep() {
-		System.out.println("Un pas");
+//		System.out.println("Un pas");
 		for(Map.Entry<Integer, User> entry : users.entrySet()) {
 	//		System.out.println("TEST");
 			getLogicCoord(entry.getValue());
@@ -217,14 +217,14 @@ public class Simulator extends Observable {
 	 * This run a simulation of ten step.
 	 */
 	public void run() {
-		System.out.println("lancement de la simulation");
+//		System.out.println("lancement de la simulation");
 
 		users = client.beginSimulation();
 		placeUser();
 
 
 		for(int i = 0; i < 50; i++){
-			System.out.println("Dans la simulation");
+//			System.out.println("Dans la simulation");
 
 						runOneStep();
 			try {

@@ -3,6 +3,7 @@ package MarauderPNS.controller;
 import MarauderPNS.View.*;
 import MarauderPNS.communication.Client;
 import MarauderPNS.map.Field;
+import MarauderPNS.readXML.ReadXMLMap;
 import MarauderPNS.simulation.FootPrinter;
 import MarauderPNS.simulation.Simulator;
 import MarauderPNS.user.Position;
@@ -18,8 +19,9 @@ public class Controller{
     private GridView gridView;
     private GridSimulateView gridSimulateView;
     private Simulator simulator;
-    private int height = 20;
-    private int width = 20;
+    private ReadXMLMap xmlMap;
+    private int height = 100;
+    private int width = 100;
 
     private static Controller instance = null;
 
@@ -31,7 +33,7 @@ public class Controller{
     }
 
     private Controller() {
-
+        xmlMap = new ReadXMLMap();
     }
 
     public void setField(Field field){ simulator.setField(field);}
@@ -58,14 +60,16 @@ public class Controller{
            @Override
            public void run() {
                simulator = new Simulator(height, width);
+               simulator.getField().drawVerticalWall(xmlMap.processRaws());
+               simulator.getField().drawHorizontalWall(xmlMap.processCols());
                Field field = simulator.getField();
                FieldPanel fieldPanel = gridView.getField();
-               System.out.println(fieldPanel);
+           //    System.out.println(fieldPanel);
                field.addObserver(fieldPanel);
                field.addObserver(gridView);
-               gridView.repaint();
-               System.out.println(field.countObservers());
+            //   System.out.println(field.countObservers());
                simulator.setField(field);
+               gridView.repaint();
                simulator.addObserver(gridView);
                simulator.run();
            }

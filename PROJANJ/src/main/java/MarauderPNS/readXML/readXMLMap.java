@@ -18,6 +18,7 @@ public class ReadXMLMap {
 
     public ReadXMLMap() {
         readXML = new ReadXML();
+        readFile();
     }
 
     public void readFile() {
@@ -25,8 +26,8 @@ public class ReadXMLMap {
         //Chekcing the root element
         assert (doc.getDocumentElement().getNodeName().equalsIgnoreCase("map"));
     }
-    public List<int[]> processRaws() {
-        List<int[]> raws = new ArrayList<>();
+    public ArrayList<int[]> processRaws() {
+         ArrayList<int[]> raws = new ArrayList<>();
 
             NodeList nList = doc.getElementsByTagName("line");
 /*
@@ -43,7 +44,7 @@ une méthode processCols*/
                         int theWalls[] = new int[3];
                         theWalls[0] = lineNo;
                         theWalls[1] = Integer.parseInt(eElement.getElementsByTagName("debut").item(0).getTextContent());
-                        theWalls[2] = Integer.parseInt(eElement.getElementsByTagName("fin").item(0).getTextContent());;
+                        theWalls[2] = Integer.parseInt(eElement.getElementsByTagName("fin").item(0).getTextContent());
                         raws.add(theWalls);
                     }
                 }
@@ -51,8 +52,8 @@ une méthode processCols*/
         return raws;
     }
 
-    public List<int[]> processCols() {
-        List<int[]> cols = new ArrayList<>();
+    public ArrayList<int[]> processCols() {
+        ArrayList<int[]> cols = new ArrayList<>();
 
         NodeList nList = doc.getElementsByTagName("col");
 
