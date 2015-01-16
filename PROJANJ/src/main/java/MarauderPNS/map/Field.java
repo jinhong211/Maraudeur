@@ -86,7 +86,7 @@ public class Field extends Observable
 
     public void drawVerticalWall(ArrayList<int[]> tableau){
         for(int i = 0; i < tableau.size(); i++) {
-            for(int k = tableau.get(i)[1];k < tableau.get(i)[2];k++) {
+            for(int k = tableau.get(i)[1];k <= tableau.get(i)[2];k++) {
                 Wall wall = new Wall();
                 placeWall(wall,tableau.get(i)[0],k);
             }
@@ -97,7 +97,7 @@ public class Field extends Observable
 
     public void drawHorizontalWall(ArrayList<int[]> tableau) {
         for(int i = 0; i < tableau.size(); i++) {
-            for(int k = tableau.get(i)[1]; k < tableau.get(i)[2]; k++){
+            for(int k = tableau.get(i)[1]; k <=tableau.get(i)[2]; k++){
                 Wall wall = new Wall();
                 placeWall(wall, k, tableau.get(i)[0]);
             }
